@@ -17,7 +17,7 @@ plt.title('My first graph!')
 # function to show the plot 
 plt.show() 
 #get average pds
-
+a = 5
 
 #transform with FFT
 
