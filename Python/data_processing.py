@@ -2,7 +2,11 @@ from ctypes import sizeof
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal
+import scipy.io
 from scipy.io import wavfile
+from os.path import dirname, join as pjoin
+
+
 
 # x axis values 
 x = [1,2,3] 
@@ -25,7 +29,9 @@ plt.show()
 
 
 #get average pds
-sample_rate, samples = wavfile.read('A1-A4-001.wav')
+data_dir = pjoin(dirname(scipy.io.__file__), 'tests', 'data')
+wav_fname = pjoin(data_dir, 'test-44100Hz-be-1ch-4bytes.wav')
+#sample_rate, samples = wavfile.read('A1-A4-001.wav')
 
 #transform with FFT
 
