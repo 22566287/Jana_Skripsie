@@ -3,38 +3,38 @@ import numpy as np
 from ctypes import sizeof
 
 def pitch_detection(fftdata, freqScale, numOfComp):
-    #Idea: compute graphs and store in 2D array - do recursively
-    #      Add first N points of all graphs to one graph
-    #      N should be greater than potential f0
-    #      find max amplitude of resultant graph - corrisponding
-    #      frequency is f0
-    #      return f0
-    for i in range(numOfComp):
-        compression(fftdata,freqScale, i+2)  #do it with recursion
-        print(i+2)
-
-
-
-def compression(data,freqS, numOfComp):
-    compressed = np.zeros(int(data.shape[0]/numOfComp))
-    freqX = np.fft.fftfreq(len(compressed), 1/96000*numOfComp)
-    yMax = 0
     f0value = 0
-    maxIndex = 0
+    yMax = 0
+    compressedSum = np.zeros(int(fftdata.shape[0]))
+    compressed = np.zeros(int(fftdata.shape[0]/numOfComp))
+    
+    for i in range(numOfComp):
+        compressed = compression(fftdata, i+1)
+        compressed = np.pad(compressed, (0, int(compressedSum.shape[0]) - int(compressed.shape[0])), 'constant')
+        compressedSum += compressed
+
+    for i in range(compressedSum.size):
+        if(compressedSum[i]>yMax):
+            yMax = compressedSum[i]
+            f0value = i/len(compressedSum)*(96000)
+
+    plt.xlim(0, 4000)
+    plt.title("Number of compressed graphs added: " + str(numOfComp))
+    plt.plot(freqScale,compressedSum) 
+    plt.show()
+    
+    return f0value
+        
+
+
+
+def compression(data, numOfComp):
+    compressed = np.zeros(int(data.shape[0]/numOfComp))
     for i in range(compressed.size):
         compressed[i] = data[numOfComp*i]
-        if(compressed[i] > yMax):
-            yMax = compressed[i]
-            maxIndex = i
-            f0value = maxIndex/len(compressed)*(96000)
-    print("max index: ")
-    print(f0value)
-    
-    plt.xlim(0, 7000)
-    plt.title(numOfComp)
-    plt.plot(freqX,compressed) #plot freqX vs Hx
-    plt.show()
-    print(compressed.size)
+    return compressed
+
+
 
 def plot_a_graph():
     # x axis values 
