@@ -8,6 +8,7 @@ frameskip = 4000
 minfreq = 0
 maxfreq = 14000
 f0 = 0.0
+energy = 0
 
 # Standard frequency values:
 # G3 = 196 Hz
@@ -19,7 +20,7 @@ f0 = 0.0
 #read data from folder
 standard = 440
 #audioArr = np.array(["A1-G3-001.wav", "A1-D4-001.wav","A1-A4-001.wav","A1-E5-001.wav","A1-E6-001.wav"])
-input_data = read("./data/A1-G3-001.wav")
+input_data = read("./data/A1-E5-001.wav")
 fs = input_data[0]
 audio = input_data[1]
 print("Original audio size: " + str(audio.shape[0]))
@@ -42,5 +43,8 @@ plt.ylabel("Amplitude")
 plt.xlabel("Time")
 plt.xlim(0, 9000)
 plt.show()
+
+energy = getEnergyInHarmonic(avPDS, f0, 1, freqX)
+print(energy)
 
 

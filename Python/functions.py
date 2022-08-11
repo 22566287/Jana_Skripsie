@@ -91,5 +91,24 @@ def getframes(x,framelength,frameskip):
         F[:,i] = x[xIndex:xIndex+framelength, 0]
 
     return F
+
+
+
+def getEnergyInHarmonic(x, f0, feature, freqScale):
+    energy = 0
+    scale = freqScale[1]
+    area = int(2*20*scale)     #here n is 20
+    numberOfHarmonic = 1
+    scale = freqScale[1]
+
+    if(feature == 1):
+        while(numberOfHarmonic < 5):
+            if(f0*numberOfHarmonic > 1000*1.1):
+                break
+            for i in range(area):
+                energy += pow(x[int(f0*numberOfHarmonic-area/2)+i],2)
+            numberOfHarmonic += 1
+
+    return energy
     
 
