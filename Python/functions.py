@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from ctypes import sizeof
 
+
+
 def pitch_detection(fftdata, freqScale, numOfComp):
     f0value = 0
     yMax = 0
@@ -27,7 +29,6 @@ def pitch_detection(fftdata, freqScale, numOfComp):
         
 
 
-
 def compression(data, numOfComp):
     compressed = np.zeros(int(data.shape[0]/numOfComp))
     for i in range(compressed.size):
@@ -36,86 +37,41 @@ def compression(data, numOfComp):
 
 
 
-def plot_a_graph():
-    # x axis values 
-    x = [1,2,3] 
-    # corresponding y axis values 
-    y = [2,4,1] 
-    
-    # plotting the points  
-    plt.plot(x, y) 
-    plt.xlabel('x - axis') 
-    # naming the y axis 
-    plt.ylabel('y - axis') 
-    
-    # giving a title to my graph 
-    plt.title('My first graph!') 
-    
-    # function to show the plot 
-    plt.show() 
-
-#functions
-
-# % Determine the average power density spectrum of a signal.
-# %
-# % Usage: y = get_average_pds(x,framelength,frameskip)
-# %
-# % Systems & Signals 414, Thomas Niesler, Stellenbosch University 2007-2020.
-
-# function y = get_average_pds(x,framelength,frameskip)
-
-# % Divide input signal into frames
-# F = getframes(x,framelength,frameskip);
-# [framelength,nframes] = size(F);
-
-# %disp(['Found ' num2str(nframes) ' frames.'])
-
-# % Accumulated FFTs of windowed frames
-# S = zeros(framelength,1);
-# w = hamming(framelength);
-# for i = 1:nframes
-#  S = S + abs(fft(F(:,i).*w)).^2;
-# end
-
-# % Normalise by number of accumulations
-# S = S / nframes;
-
-# % Return average spectrum
-# y = S;
-
 def get_average_pds(x,framelength,frameskip):
-    print("hello")
+    avPDS = 0
     # Divide input signal into frames
     F = getframes(x,framelength,frameskip)
-    print(F)
+    [framelength,nframes] = F.shape
 
     # Accumulated FFTs of windowed frames
-
+    S = np.zeros(framelength)
+    w = np.hamming(framelength)
+    for i in range(nframes):
+        S = S + pow(abs(np.fft.fft(F[:,i]*w)), 2)
 
     # Normalise by number of accumulations
-
+    S = S/nframes
+    avPDS = S
 
     # Return average spectrum
-    # avPDS = 0
-    # return avPDS
+    return avPDS
 
 
 
 # Divide data vector x into frames.
 # F will be Nf by Lf, where NF is the number of frames and Lf the frame length
 def getframes(x,framelength,frameskip):
-    # [r,c] = x.size
-    r = len(x)
-    #c = len(x[0])
-    #print(x.shape)
+    
+    x = np.reshape(x, (x.shape[0],1))
+    [r,c] = x.shape
 
-    # if(r!=1 and c!=1):
-    #     print("ERROR: x should be a vector")
-    #     return
+    if(r!=1 and c!=1):
+        print("ERROR: x should be a vector")
+        return
 
-    # # Make sure x is a column vector
-    # if (c > 1):
-    #     x = x.transpose()
+    # Make sure x is a column vector
+    if (c > 1):
+        x = x.transpose()
 
     Lx = len(x)
 
@@ -126,15 +82,20 @@ def getframes(x,framelength,frameskip):
     # Determine number of frames that can be extracted from data vector x.
     # "fix" takes integer part, like "trunc" in matlab
     nFrames = int((Lx-framelength)/frameskip + 1)
+    print("Number of frames: " + str(nFrames))
 
     # Prepare output matrix
-    F = np.zeros(nFrames)
+    F = [[0 for i in range(nFrames)] for j in range(framelength)]
+    F = np.reshape(F, (framelength,nFrames))
+    # print(len(F))   #number of rows
+    # print(len(F[0]))    #number of columns
+    # print(F.shape)
 
     # Now divide x into frames
     for i in range(nFrames):
-        xIndex = (i-1)*frameskip + 1
-        F[i] = x[xIndex]
-        #print(F[i])
+        xIndex = (i)*frameskip + 1
+        F[:,i] = x[xIndex:xIndex+framelength, 0]
+    #print(F[4:8])
     return F
     
 
