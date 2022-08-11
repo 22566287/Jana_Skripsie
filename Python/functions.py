@@ -20,10 +20,10 @@ def pitch_detection(fftdata, freqScale, numOfComp):
             yMax = compressedSum[i]
             f0value = i/len(compressedSum)*(96000)
 
-    plt.xlim(0, 4000)
-    plt.title("Number of compressed graphs added: " + str(numOfComp))
-    plt.plot(freqScale,compressedSum) 
-    plt.show()
+    # plt.xlim(0, 4000)
+    # plt.title("Number of compressed graphs added: " + str(numOfComp))
+    # plt.plot(freqScale,compressedSum) 
+    # plt.show()
     
     return f0value
         
@@ -58,10 +58,7 @@ def get_average_pds(x,framelength,frameskip):
 
 
 
-# Divide data vector x into frames.
-# F will be Nf by Lf, where NF is the number of frames and Lf the frame length
 def getframes(x,framelength,frameskip):
-    
     x = np.reshape(x, (x.shape[0],1))
     [r,c] = x.shape
 
@@ -87,15 +84,12 @@ def getframes(x,framelength,frameskip):
     # Prepare output matrix
     F = [[0 for i in range(nFrames)] for j in range(framelength)]
     F = np.reshape(F, (framelength,nFrames))
-    # print(len(F))   #number of rows
-    # print(len(F[0]))    #number of columns
-    # print(F.shape)
 
     # Now divide x into frames
     for i in range(nFrames):
         xIndex = (i)*frameskip + 1
         F[:,i] = x[xIndex:xIndex+framelength, 0]
-    #print(F[4:8])
+
     return F
     
 
