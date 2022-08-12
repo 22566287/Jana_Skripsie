@@ -94,19 +94,23 @@ def getframes(x,framelength,frameskip):
 
 
 
-def getEnergyInHarmonic(x, f0, feature, freqScale):
+def getEnergyInHarmonic(x, f0, feature):
     energy = 0
-    scale = freqScale[1]
-    area = int(2*20*scale)     #here n is 20
     numberOfHarmonic = 1
-    scale = freqScale[1]
+    n = int(f0*len(x)/96000)        #index of f0 in x[n]
+    print("index of f0: " + str(n))
+    offset = int(4.5*len(x)/96000)    #offset of 4Hz for 0.1 of max
+    print(4.5*len(x)/96000)
+
+
+    area = 2*offset     #here n is 20
 
     if(feature == 1):
         while(numberOfHarmonic < 5):
             if(f0*numberOfHarmonic > 1000*1.1):
                 break
             for i in range(area):
-                energy += pow(x[int(f0*numberOfHarmonic-area/2)+i],2)
+                energy += abs(pow(x[n*numberOfHarmonic-offset+i],2))
             numberOfHarmonic += 1
 
     return energy

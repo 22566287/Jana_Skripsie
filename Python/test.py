@@ -18,9 +18,14 @@ energy = 0
 # E6 = 1318.51 Hz
 
 #read data from folder
-standard = 440
+standard = 196
 #audioArr = np.array(["A1-G3-001.wav", "A1-D4-001.wav","A1-A4-001.wav","A1-E5-001.wav","A1-E6-001.wav"])
-input_data = read("./data/A1-E5-001.wav")
+africa1 = read("./data/A1-A4-001.wav")
+africa2 = read("./data/A2-A4-001.wav")
+conv1 = read("./data/C1-A4-001.wav")
+conv2 = read("./data/C2-A4-001.wav")
+
+input_data = read("./data/A2-A4-001.wav")
 fs = input_data[0]
 audio = input_data[1]
 print("Original audio size: " + str(audio.shape[0]))
@@ -41,10 +46,11 @@ plt.plot(freqX,avPDS)
 plt.title("FFT")
 plt.ylabel("Amplitude")
 plt.xlabel("Time")
-plt.xlim(0, 9000)
+plt.xlim(0, 7000)
+plt.grid()
 plt.show()
 
-energy = getEnergyInHarmonic(avPDS, f0, 1, freqX)
+energy = getEnergyInHarmonic(avPDS, f0, 1)
 print(energy)
 
 
