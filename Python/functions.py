@@ -95,6 +95,7 @@ def getframes(x,framelength,frameskip):
 
 
 def getEnergyInHarmonic(x, f0, feature):
+    print("Feature: " + str(feature))
     energy = 0
     numberOfHarmonic = 1
     n = int(f0*len(x)/96000)        #index of f0 in x[n]
@@ -108,10 +109,21 @@ def getEnergyInHarmonic(x, f0, feature):
     if(feature == 1):
         while(numberOfHarmonic < 5):
             if(f0*numberOfHarmonic > 1000*1.1):
+                print("Energy in feature 1: " + str(energy))
                 break
             for i in range(area):
                 energy += abs(pow(x[n*numberOfHarmonic-offset+i],2))
             numberOfHarmonic += 1
+
+    if(feature == 2):
+        while(numberOfHarmonic < 10):
+            if(f0*numberOfHarmonic > 2000*1.1):
+                print("Energy in feature 2: " + str(energy))
+                break
+            for i in range(area):
+                energy += abs(pow(x[n*numberOfHarmonic-offset+i],2))
+            numberOfHarmonic += 1
+
 
     return energy
     

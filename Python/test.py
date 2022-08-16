@@ -25,7 +25,7 @@ africa2 = read("./data/A2-A4-001.wav")
 conv1 = read("./data/C1-A4-001.wav")
 conv2 = read("./data/C2-A4-001.wav")
 
-input_data = read("./data/A2-A4-001.wav")
+input_data = read("./data/C1-E6-001.wav")
 fs = input_data[0]
 audio = input_data[1]
 print("Original audio size: " + str(audio.shape[0]))
@@ -46,11 +46,19 @@ plt.plot(freqX,avPDS)
 plt.title("FFT")
 plt.ylabel("Amplitude")
 plt.xlabel("Time")
-plt.xlim(0, 7000)
+plt.xlim(0, 9000)
 plt.grid()
 plt.show()
 
 energy = getEnergyInHarmonic(avPDS, f0, 1)
 print(energy)
+
+
+# file = open("A1E6.txt", "w") 
+# for i in range(len(avPDS)):
+#     file.write(str(avPDS[i]) + " \n") 
+# file.close() 
+
+print("done")
 
 
