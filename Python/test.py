@@ -20,12 +20,8 @@ energy = 0
 #read data from folder
 standard = 196
 #audioArr = np.array(["A1-G3-001.wav", "A1-D4-001.wav","A1-A4-001.wav","A1-E5-001.wav","A1-E6-001.wav"])
-africa1 = read("./data/A1-A4-001.wav")
-africa2 = read("./data/A2-A4-001.wav")
-conv1 = read("./data/C1-A4-001.wav")
-conv2 = read("./data/C2-A4-001.wav")
 
-input_data = read("./data/C1-E6-001.wav")
+input_data = read("./data/A1-G3-001.wav")
 fs = input_data[0]
 audio = input_data[1]
 print("Original audio size: " + str(audio.shape[0]))
@@ -39,26 +35,25 @@ freqX = np.fft.fftfreq(len(avPDS), 1/fs)
 f0 = pitch_detection(avPDS, freqX, 15)
 print("True expected frequency: " + str(standard) + " Hz")
 print("Pitch detector result: " + str(f0) + " Hz")
+if(standard != f0):
+    freqX = shiftToRealF0(avPDS, freqX, standard, f0)
+    f0 = pitch_detection(avPDS, freqX, 15)
+    print("True expected frequency: " + str(standard) + " Hz")
+    print("Pitch detector result: " + str(f0) + " Hz")
 
-#Plot the FFT with reduced frequency resolution
+
+#Calculate energy in feature bands
+energy = getEnergyInHarmonic(avPDS, f0, 2)
+
+#Plot the FFT with reduced frequency resolution and normalised
 avPDS = avPDS/max(avPDS)          #normalise to compensate for loudness
-plt.plot(freqX,avPDS) 
-plt.title("FFT")
-plt.ylabel("Amplitude")
-plt.xlabel("Time")
-plt.xlim(0, 9000)
-plt.grid()
-plt.show()
-
-energy = getEnergyInHarmonic(avPDS, f0, 1)
-print(energy)
+print(freqX)
+plotFFTs(freqX,avPDS,12000)
 
 
-# file = open("A1E6.txt", "w") 
-# for i in range(len(avPDS)):
-#     file.write(str(avPDS[i]) + " \n") 
-# file.close() 
+#save data to a text file
+#saveToTextFile("A1E6.txt", avPDS)
 
-print("done")
+print("Done")
 
 

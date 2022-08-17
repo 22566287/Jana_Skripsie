@@ -36,6 +36,20 @@ def compression(data, numOfComp):
     return compressed
 
 
+def shiftToRealF0(data, freq, standard, currentF0):
+    nCurrent = int(currentF0*len(freq)/96000)        #index of f0 in x[n]
+    nStandard = int(standard*len(freq)/96000)
+    print("Current position of F0: " + str(nCurrent))
+    print("Correct position of F0: " + str(nStandard))
+    shiftValue =nCurrent - nStandard
+    print(shiftValue)
+    for n in range(len(freq) - shiftValue):
+        freq[n] = freq[n + shiftValue]
+        #data[n - shiftValue] = data[n]
+
+    return freq
+
+
 
 def get_average_pds(x,framelength,frameskip):
     avPDS = 0
@@ -93,21 +107,33 @@ def getframes(x,framelength,frameskip):
     return F
 
 
+def plotFFTs(x,y, xlim):
+    #Plot the FFT with reduced frequency resolution
+    plt.plot(x,y) 
+    plt.title("FFT")
+    plt.ylabel("Amplitude")
+    plt.xlabel("Frequency")
+    plt.xlim(-2000, xlim)
+    plt.grid()
+    plt.show()
+
+
+def saveToTextFile(fileName, data):
+    file = open(fileName, "w") 
+    for i in range(len(data)):
+        file.write(str(data[i]) + " \n") 
+    file.close() 
+
 
 def getEnergyInHarmonic(x, f0, feature):
-    print("Feature: " + str(feature))
     energy = 0
     numberOfHarmonic = 1
     n = int(f0*len(x)/96000)        #index of f0 in x[n]
-    print("index of f0: " + str(n))
-    offset = int(4.5*len(x)/96000)    #offset of 4Hz for 0.1 of max
-    print(4.5*len(x)/96000)
-
-
-    area = 2*offset     #here n is 20
+    offset = int(4.5*len(x)/96000)  #offset of 4Hz for 0.1 of max
+    area = 2*offset                 #here n is 20
 
     if(feature == 1):
-        while(numberOfHarmonic < 5):
+        while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 1000*1.1):
                 print("Energy in feature 1: " + str(energy))
                 break
@@ -115,8 +141,17 @@ def getEnergyInHarmonic(x, f0, feature):
                 energy += abs(pow(x[n*numberOfHarmonic-offset+i],2))
             numberOfHarmonic += 1
 
+            # Calculate likelihood (6.10)
+            # tmp = np.zeros(N)
+            # for j in range(N):
+            #     tmp[j] = np.log(trans[j,N]) + alpha[j,T-1]
+            # LM = np.max(tmp)
+            # tmp = tmp - LM
+            # LL = LM + np.log(np.sum(np.exp(tmp)))
+            # LL = np.max(LL, axis=0)
+
     if(feature == 2):
-        while(numberOfHarmonic < 10):
+        while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 2000*1.1):
                 print("Energy in feature 2: " + str(energy))
                 break
