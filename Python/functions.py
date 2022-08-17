@@ -43,11 +43,17 @@ def shiftToRealF0(data, freq, standard, currentF0):
     print("Correct position of F0: " + str(nStandard))
     shiftValue =nCurrent - nStandard
     print(shiftValue)
-    for n in range(len(freq) - shiftValue):
-        freq[n] = freq[n + shiftValue]
-        #data[n - shiftValue] = data[n]
+    tempFreq = np.zeros(len(freq))
+    tempD = np.zeros(len(data))
+    
 
-    return freq
+    for n in range(len(freq)):
+        tempFreq[n] = freq[n - shiftValue]
+        #tempD[n] = data[n - shiftValue]
+
+    print(tempFreq)
+
+    return tempFreq
 
 
 
@@ -113,7 +119,7 @@ def plotFFTs(x,y, xlim):
     plt.title("FFT")
     plt.ylabel("Amplitude")
     plt.xlabel("Frequency")
-    plt.xlim(-2000, xlim)
+    plt.xlim(0, xlim)
     plt.grid()
     plt.show()
 
