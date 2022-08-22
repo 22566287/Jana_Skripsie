@@ -1,6 +1,20 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from ctypes import sizeof
+import os
+
+
+def readInData():
+    # Get the list of all files and directories
+    path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
+    dir_list = os.listdir(path)
+    
+    #print("Files and directories in '", path, "' :")
+    
+    # prints all files
+    #print(dir_list)
+
+    return dir_list
 
 
 
@@ -34,26 +48,6 @@ def compression(data, numOfComp):
     for i in range(compressed.size):
         compressed[i] = data[numOfComp*i]
     return compressed
-
-
-def shiftToRealF0(data, freq, standard, currentF0):
-    nCurrent = int(currentF0*len(freq)/96000)        #index of f0 in x[n]
-    nStandard = int(standard*len(freq)/96000)
-    print("Current position of F0: " + str(nCurrent))
-    print("Correct position of F0: " + str(nStandard))
-    shiftValue =nCurrent - nStandard
-    print(shiftValue)
-    tempFreq = np.zeros(len(freq))
-    tempD = np.zeros(len(data))
-    
-
-    for n in range(len(freq)):
-        tempFreq[n] = freq[n - shiftValue]
-        #tempD[n] = data[n - shiftValue]
-
-    print(tempFreq)
-
-    return tempFreq
 
 
 
@@ -119,7 +113,7 @@ def plotFFTs(x,y, xlim):
     plt.title("FFT")
     plt.ylabel("Amplitude")
     plt.xlabel("Frequency")
-    plt.xlim(0, xlim)
+    #plt.xlim(0, xlim)
     plt.grid()
     plt.show()
 
@@ -131,38 +125,32 @@ def saveToTextFile(fileName, data):
     file.close() 
 
 
-def getEnergyInHarmonic(x, f0, feature):
+def getEnergyInHarmonic(x, f0, feature, framelength):
     energy = 0
     numberOfHarmonic = 1
-    n = int(f0*len(x)/96000)        #index of f0 in x[n]
-    offset = int(4.5*len(x)/96000)  #offset of 4Hz for 0.1 of max
+    n = int(f0*framelength/96000)        #index of f0 in x[n]
+    offset = int(4.5*framelength/96000)  #offset of 4Hz for 0.1 of max
     area = 2*offset                 #here n is 20
 
     if(feature == 1):
         while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 1000*1.1):
+                energy = np.log(energy)
                 print("Energy in feature 1: " + str(energy))
                 break
             for i in range(area):
-                energy += abs(pow(x[n*numberOfHarmonic-offset+i],2))
+                energy += pow(x[n*numberOfHarmonic-offset+i],2)
             numberOfHarmonic += 1
 
-            # Calculate likelihood (6.10)
-            # tmp = np.zeros(N)
-            # for j in range(N):
-            #     tmp[j] = np.log(trans[j,N]) + alpha[j,T-1]
-            # LM = np.max(tmp)
-            # tmp = tmp - LM
-            # LL = LM + np.log(np.sum(np.exp(tmp)))
-            # LL = np.max(LL, axis=0)
 
     if(feature == 2):
         while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 2000*1.1):
+                energy = np.log(energy)
                 print("Energy in feature 2: " + str(energy))
                 break
             for i in range(area):
-                energy += abs(pow(x[n*numberOfHarmonic-offset+i],2))
+                energy += pow(x[n*numberOfHarmonic-offset+i],2)
             numberOfHarmonic += 1
 
 
