@@ -125,15 +125,15 @@ def saveToTextFile(fileName, data):
     file.close() 
 
 
-def getEnergyInHarmonic(x, f0, feature, framelength):
+def getEnergyInHarmonic(x, f0, feature, framelength, note):
     energy = 0
     numberOfHarmonic = 1
     n = int(f0*framelength/96000)        #index of f0 in x[n]
-    print(n)
     offset = int(4.5*framelength/96000)  #offset of 4Hz for 0.1 of max
     area = 2*offset                 #here n is 20
+    
 
-    if(feature == 1):
+    if(feature == 1):       #frequencies less than 1kHz
         while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 1000*1.1):
                 energy = np.log(energy)
@@ -144,11 +144,58 @@ def getEnergyInHarmonic(x, f0, feature, framelength):
             numberOfHarmonic += 1
 
 
-    if(feature == 2):
-        while(numberOfHarmonic < 20):
-            if(f0*numberOfHarmonic > 2000*1.1 and f0*numberOfHarmonic < 3000*0.9):
+    if(feature == 2):       #frequencies between 1kHz and 2kHz
+        if(note == 'G'):
+            numberOfHarmonic = 6
+        if(note == 'D'):
+            numberOfHarmonic = 4
+        if(note == 'A'):
+            numberOfHarmonic = 3
+        if(note == 'E'):
+            numberOfHarmonic = 2
+
+        while(numberOfHarmonic < 30):
+            if(f0*numberOfHarmonic > 2000*1.1):
                 energy = np.log(energy)
                 print("Energy in feature 2: " + str(energy))
+                break
+            for i in range(area):
+                energy += pow(x[n*numberOfHarmonic-offset+i],2)
+            numberOfHarmonic += 1
+
+    if(feature == 3):       #frequencies between 2kHz and 3kHz
+        if(note == 'G'):
+            numberOfHarmonic = 11
+        if(note == 'D'):
+            numberOfHarmonic = 7
+        if(note == 'A'):
+            numberOfHarmonic = 5
+        if(note == 'E'):
+            numberOfHarmonic = 3
+
+        while(numberOfHarmonic < 40):
+            if(f0*numberOfHarmonic > 3000*1.1):
+                energy = np.log(energy)
+                print("Energy in feature 3: " + str(energy))
+                break
+            for i in range(area):
+                energy += pow(x[n*numberOfHarmonic-offset+i],2)
+            numberOfHarmonic += 1
+
+    if(feature == 4):       #frequencies greater than 3kHz
+        if(note == 'G'):
+            numberOfHarmonic = 16
+        if(note == 'D'):
+            numberOfHarmonic = 10
+        if(note == 'A'):
+            numberOfHarmonic = 7
+        if(note == 'E'):
+            numberOfHarmonic = 5
+
+        while(numberOfHarmonic < 50):
+            if(f0*numberOfHarmonic > 14000*1.1):
+                energy = np.log(energy)
+                print("Energy in feature 4: " + str(energy))
                 break
             for i in range(area):
                 energy += pow(x[n*numberOfHarmonic-offset+i],2)

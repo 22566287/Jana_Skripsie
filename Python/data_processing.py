@@ -24,7 +24,8 @@ conv10 = [""]*5
 fact1 = [""]*5
 fact2 = [""]*5
 fact3 = [""]*5
-standard = 196
+
+
 
 # Standard frequency values:
 # G3 = 196 Hz
@@ -33,7 +34,7 @@ standard = 196
 # E5 = 659.26 Hz
 # E6 = 1318.51 Hz
 
-#read data from folder
+#read data names from folder
 files = readInData()
 
 for i in range(5):
@@ -64,7 +65,15 @@ print(conv10[0])
 print(fact1[0])
 print(fact3[4])
 
-input_data = read("./data/A2-A4-001.wav")
+#try to read data from directory with specific file
+path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
+readintry1 = read(path + "\\" + africa1[0])
+print(readintry1[0])
+print(readintry1[1])
+
+standard = 440
+note = 'G'
+input_data = read("./data/A1-G3-001.wav")
 fs = input_data[0]
 audio = input_data[1]
 print("Original audio size: " + str(audio.shape[0]))
@@ -89,16 +98,17 @@ print("Pitch detector result: " + str(f0) + " Hz")
 #Plot the FFT with reduced frequency resolution
 avPDS = avPDS/max(avPDS)          #normalise to compensate for loudness
 avPDSshort = avPDSshort/max(avPDSshort)   
-plt.plot(freqX,avPDS) 
+plt.plot(freqXshort,avPDSshort) 
 plt.title("FFT")
 plt.ylabel("Amplitude")
 plt.xlabel("Time")
-plt.xlim(0, 7000)
 plt.grid()
 plt.show()
 
-energy1 = getEnergyInHarmonic(avPDSshort, f0, 1,framelength)
-energy2 = getEnergyInHarmonic(avPDSshort, f0, 2,framelength)
+energy1 = getEnergyInHarmonic(avPDSshort, f0, 1,framelength, note)
+energy2 = getEnergyInHarmonic(avPDSshort, f0, 2,framelength, note)
+energy3 = getEnergyInHarmonic(avPDSshort, f0, 3,framelength, note)
+energy4 = getEnergyInHarmonic(avPDSshort, f0, 4,framelength, note)
 
 
 
