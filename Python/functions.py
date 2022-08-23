@@ -129,6 +129,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength):
     energy = 0
     numberOfHarmonic = 1
     n = int(f0*framelength/96000)        #index of f0 in x[n]
+    print(n)
     offset = int(4.5*framelength/96000)  #offset of 4Hz for 0.1 of max
     area = 2*offset                 #here n is 20
 
@@ -145,7 +146,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength):
 
     if(feature == 2):
         while(numberOfHarmonic < 20):
-            if(f0*numberOfHarmonic > 2000*1.1):
+            if(f0*numberOfHarmonic > 2000*1.1 and f0*numberOfHarmonic < 3000*0.9):
                 energy = np.log(energy)
                 print("Energy in feature 2: " + str(energy))
                 break

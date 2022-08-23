@@ -97,8 +97,9 @@ plt.xlim(0, 7000)
 plt.grid()
 plt.show()
 
-energy = getEnergyInHarmonic(avPDSshort, f0, 1,framelength)
-print(energy)
+energy1 = getEnergyInHarmonic(avPDSshort, f0, 1,framelength)
+energy2 = getEnergyInHarmonic(avPDSshort, f0, 2,framelength)
+
 
 
 
