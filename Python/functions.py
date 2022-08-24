@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from ctypes import sizeof
 import os
+import os.path
 
 
 def readInData():
@@ -29,15 +30,23 @@ def pitch_detection(fftdata, freqScale, numOfComp):
         compressed = np.pad(compressed, (0, int(compressedSum.shape[0]) - int(compressed.shape[0])), 'constant')
         compressedSum += compressed
 
+    yMax = max(compressedSum)
+    print(yMax)
     for i in range(compressedSum.size):
-        if(compressedSum[i]>yMax):
-            yMax = compressedSum[i]
+        if(yMax == compressedSum[i]):
             f0value = i/len(compressedSum)*(96000)
+
+    #for i in range(compressedSum.size):
+        # if(compressedSum[i]>yMax):
+        #     yMax = compressedSum[i]
+        #     f0value = i/len(compressedSum)*(96000)
 
     # plt.xlim(0, 4000)
     # plt.title("Number of compressed graphs added: " + str(numOfComp))
     # plt.plot(freqScale,compressedSum) 
     # plt.show()
+
+    print(f0value)
     
     return f0value
         
@@ -113,13 +122,16 @@ def plotFFTs(x,y, xlim):
     plt.title("FFT")
     plt.ylabel("Amplitude")
     plt.xlabel("Frequency")
-    #plt.xlim(0, xlim)
+    plt.xlim(0, xlim)
     plt.grid()
     plt.show()
 
 
 def saveToTextFile(fileName, data):
-    file = open(fileName, "w") 
+    save_path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\results"
+    completeName = os.path.join(save_path, fileName)         
+
+    file = open(completeName, "w") 
     for i in range(len(data)):
         file.write(str(data[i]) + " \n") 
     file.close() 
