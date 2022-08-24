@@ -93,7 +93,7 @@ def getframes(x,framelength,frameskip):
     # Determine number of frames that can be extracted from data vector x.
     # "fix" takes integer part, like "trunc" in matlab
     nFrames = int((Lx-framelength)/frameskip + 1)
-    print("Number of frames: " + str(nFrames))
+    #print("Number of frames: " + str(nFrames))
 
     # Prepare output matrix
     F = [[0 for i in range(nFrames)] for j in range(framelength)]
@@ -136,7 +136,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
     if(feature == 1):       #frequencies less than 1kHz
         while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 1000*1.1):
-                energy = np.log(energy)
+                #energy = np.log(energy)
                 print("Energy in feature 1: " + str(energy))
                 break
             for i in range(area):
@@ -156,7 +156,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
 
         while(numberOfHarmonic < 30):
             if(f0*numberOfHarmonic > 2000*1.1):
-                energy = np.log(energy)
+                #energy = np.log(energy)
                 print("Energy in feature 2: " + str(energy))
                 break
             for i in range(area):
@@ -175,7 +175,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
 
         while(numberOfHarmonic < 40):
             if(f0*numberOfHarmonic > 3000*1.1):
-                energy = np.log(energy)
+                #energy = np.log(energy)
                 print("Energy in feature 3: " + str(energy))
                 break
             for i in range(area):
@@ -194,7 +194,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
 
         while(numberOfHarmonic < 50):
             if(f0*numberOfHarmonic > 14000*1.1):
-                energy = np.log(energy)
+                #energy = np.log(energy)
                 print("Energy in feature 4: " + str(energy))
                 break
             for i in range(area):

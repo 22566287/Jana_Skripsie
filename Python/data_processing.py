@@ -9,6 +9,7 @@ minfreq = 0
 maxfreq = 14000
 f0 = 0.0
 energy = 0
+numberofcompr = 20
 africa1 = [""]*5
 africa2 = [""]*5
 conv1 = [""]*5
@@ -25,14 +26,6 @@ fact1 = [""]*5
 fact2 = [""]*5
 fact3 = [""]*5
 
-
-
-# Standard frequency values:
-# G3 = 196 Hz
-# D4 = 293.66 Hz
-# A4 = 440 Hz
-# E5 = 659.26 Hz
-# E6 = 1318.51 Hz
 
 #read data names from folder
 files = readInData()
@@ -54,61 +47,176 @@ for i in range(5):
     fact2[i] = files[65+i]
     fact3[i] = files[70+i]
 
-print(africa1[0])
-print(africa2[0])
-print(conv1[0])
-print(conv2[0])
-print(conv3[0])
-print(conv4[0])
-print(conv5[0])
-print(conv10[0])
-print(fact1[0])
-print(fact3[4])
 
-#try to read data from directory with specific file
+#Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
-readintry1 = read(path + "\\" + africa1[0])
-print(readintry1[0])
-print(readintry1[1])
+for i in range(5):
+    input_data = read(path + "\\" + africa2[i])
+    fs = input_data[0]
+    audio = input_data[1]
+    print("Original audio size: " + str(audio.shape[0]))
 
-standard = 440
-note = 'G'
-input_data = read("./data/A1-G3-001.wav")
-fs = input_data[0]
-audio = input_data[1]
-print("Original audio size: " + str(audio.shape[0]))
+    if(i == 0):
+        standard = 440
+        note = 'A'  
+        print(note)
 
-#Reduce the frequency resolution and take the FFT
-avPDS = get_average_pds(audio,framelength,frameskip)
-print("Reduced frequency resolution audio size: " + str(avPDS.shape[0]))
-freqX = np.fft.fftfreq(len(avPDS), 1/fs)
+        #Reduce the frequency resolution and take the FFT
+        AavPDS = get_average_pds(audio,framelength,frameskip)
+        AfreqX = np.fft.fftfreq(len(AavPDS), 1/fs)
 
-#Remove negative frequency parts and remove unnecessary data
-freqXshort = np.zeros(5500)
-avPDSshort = np.zeros(5500)
-for i in range(5500):
-    avPDSshort[i] = avPDS[i]
-    freqXshort[i] = freqX[i]
+        #Remove negative frequency parts and remove unnecessary data
+        AfreqXshort = np.zeros(7000)
+        AavPDSshort = np.zeros(7000)
+        for i in range(7000):
+            AavPDSshort[i] = AavPDS[i]
+            AfreqXshort[i] = AfreqX[i]
 
-#Find the pitch of the current audio file
-f0 = pitch_detection(avPDS, freqX, 15)
-print("True expected frequency: " + str(standard) + " Hz")
-print("Pitch detector result: " + str(f0) + " Hz")
+        #Find the pitch of the current audio file
+        f0 = pitch_detection(AavPDS, AfreqX, numberofcompr)
+
+        #normalise to compensate for loudness        
+        AavPDSshort = AavPDSshort/max(AavPDSshort)   
+
+        #Calculate features
+        energy1 = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
+
+    if(i == 1):
+        standard = 293.66
+        note = 'D' 
+        print(note) 
+
+        #Reduce the frequency resolution and take the FFT
+        DavPDS = get_average_pds(audio,framelength,frameskip)
+        DfreqX = np.fft.fftfreq(len(DavPDS), 1/fs)
+
+        #Remove negative frequency parts and remove unnecessary data
+        DfreqXshort = np.zeros(7000)
+        DavPDSshort = np.zeros(7000)
+        for i in range(7000):
+            DavPDSshort[i] = DavPDS[i]
+            DfreqXshort[i] = DfreqX[i]
+
+        #Find the pitch of the current audio file
+        f0 = pitch_detection(DavPDS, DfreqX, numberofcompr)
+
+        #normalise to compensate for loudness        
+        DavPDSshort = DavPDSshort/max(DavPDSshort)   
+
+        #Calculate features
+        energy1 = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
+
+    if(i == 2):
+        standard = 659.26
+        note = 'E'  
+        print(note)
+
+        #Reduce the frequency resolution and take the FFT
+        EavPDS = get_average_pds(audio,framelength,frameskip)
+        EfreqX = np.fft.fftfreq(len(EavPDS), 1/fs)
+
+        #Remove negative frequency parts and remove unnecessary data
+        EfreqXshort = np.zeros(7000)
+        EavPDSshort = np.zeros(7000)
+        for i in range(7000):
+            EavPDSshort[i] = EavPDS[i]
+            EfreqXshort[i] = EfreqX[i]
+
+        #Find the pitch of the current audio file
+        f0 = pitch_detection(EavPDS, EfreqX, numberofcompr)
+
+        #normalise to compensate for loudness        
+        EavPDSshort = EavPDSshort/max(EavPDSshort)   
+
+        #Calculate features
+        energy1 = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
+
+    if(i == 3):
+        standard = 1318.51
+        note = 'E'  
+
+        #Reduce the frequency resolution and take the FFT
+        avPDS = get_average_pds(audio,framelength,frameskip)
+        freqX = np.fft.fftfreq(len(avPDS), 1/fs)
+
+        #Remove negative frequency parts and remove unnecessary data
+        freqXshort = np.zeros(7000)
+        avPDSshort = np.zeros(7000)
+        for i in range(7000):
+            avPDSshort[i] = avPDS[i]
+            freqXshort[i] = freqX[i]
+
+        #Find the pitch of the current audio file
+        f0 = pitch_detection(avPDS, freqX, numberofcompr)
+
+        #normalise to compensate for loudness        
+        avPDSshort = avPDSshort/max(avPDSshort)   
+
+    if(i == 4):
+        standard = 196
+        note = 'G'
+        print(note)
+
+        #Reduce the frequency resolution and take the FFT
+        GavPDS = get_average_pds(audio,framelength,frameskip)
+        GfreqX = np.fft.fftfreq(len(GavPDS), 1/fs)
+
+        #Remove negative frequency parts and remove unnecessary data
+        GfreqXshort = np.zeros(7000)
+        GavPDSshort = np.zeros(7000)
+        for i in range(7000):
+            GavPDSshort[i] = GavPDS[i]
+            GfreqXshort[i] = GfreqX[i]
+
+        #Find the pitch of the current audio file
+        f0 = pitch_detection(GavPDS, GfreqX, numberofcompr)
+
+        #normalise to compensate for loudness        
+        GavPDSshort = GavPDSshort/max(GavPDSshort)   
+
+        #Calculate features
+        energy1 = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
+    
+    #Find the pitch of the current audio file
+    print("True expected frequency: " + str(standard) + " Hz")
+    print("Pitch detector result: " + str(f0) + " Hz\n")
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Plot the FFT with reduced frequency resolution
-avPDS = avPDS/max(avPDS)          #normalise to compensate for loudness
-avPDSshort = avPDSshort/max(avPDSshort)   
-plt.plot(freqXshort,avPDSshort) 
-plt.title("FFT")
-plt.ylabel("Amplitude")
-plt.xlabel("Time")
-plt.grid()
-plt.show()
+# plt.plot(freqXshort,avPDSshort) 
+# plt.title("FFT")
+# plt.ylabel("Amplitude")
+# plt.xlabel("Time")
+# plt.xlim(0,7000)
+# plt.grid()
+# plt.show()
 
-energy1 = getEnergyInHarmonic(avPDSshort, f0, 1,framelength, note)
-energy2 = getEnergyInHarmonic(avPDSshort, f0, 2,framelength, note)
-energy3 = getEnergyInHarmonic(avPDSshort, f0, 3,framelength, note)
-energy4 = getEnergyInHarmonic(avPDSshort, f0, 4,framelength, note)
 
 
 
