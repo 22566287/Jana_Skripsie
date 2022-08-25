@@ -9,44 +9,45 @@ def readInData():
     # Get the list of all files and directories
     path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
     dir_list = os.listdir(path)
-    
-    #print("Files and directories in '", path, "' :")
-    
-    # prints all files
-    #print(dir_list)
-
     return dir_list
 
 
 
-def pitch_detection(fftdata, freqScale, numOfComp):
-    f0value = 0
+def pitch_detection(fftdata, freqScale, numOfComp, standard):
+    f0value = standard*0.97
     yMax = 0
     compressedSum = np.zeros(int(fftdata.shape[0]))
     compressed = np.zeros(int(fftdata.shape[0]/numOfComp))
+
+    loweroffset = int(f0value*len(compressedSum)/96000)
+    upperoffset = int(standard*1.03*len(compressedSum)/96000)
+    area = upperoffset - loweroffset
+    compressedSumZoomed = np.zeros(area)
     
+    #get sum of compressed graphs 
     for i in range(numOfComp):
         compressed = compression(fftdata, i+1)
         compressed = np.pad(compressed, (0, int(compressedSum.shape[0]) - int(compressed.shape[0])), 'constant')
         compressedSum += compressed
 
-    yMax = max(compressedSum)
-    print(yMax)
-    for i in range(compressedSum.size):
-        if(yMax == compressedSum[i]):
-            f0value = i/len(compressedSum)*(96000)
+    #isolate part of sum compressed graphs around standard frequency
+    for j in range(area):
+        compressedSumZoomed[j] = compressedSum[j+loweroffset]
 
-    #for i in range(compressedSum.size):
-        # if(compressedSum[i]>yMax):
-        #     yMax = compressedSum[i]
-        #     f0value = i/len(compressedSum)*(96000)
+    #get yMax of the isolated part
+    index = 0
+    yMax = max(compressedSumZoomed)
+    for k in range(compressedSumZoomed.size):
+        if(yMax == compressedSumZoomed[k]):
+            index = k + loweroffset
+    
+    #calculate f0
+    f0value = index/len(compressedSum)*(96000)
 
     # plt.xlim(0, 4000)
     # plt.title("Number of compressed graphs added: " + str(numOfComp))
     # plt.plot(freqScale,compressedSum) 
     # plt.show()
-
-    print(f0value)
     
     return f0value
         
@@ -75,8 +76,6 @@ def get_average_pds(x,framelength,frameskip):
     # Normalise by number of accumulations
     S = S/nframes
     avPDS = S
-
-    # Return average spectrum
     return avPDS
 
 
@@ -100,9 +99,7 @@ def getframes(x,framelength,frameskip):
         return
 
     # Determine number of frames that can be extracted from data vector x.
-    # "fix" takes integer part, like "trunc" in matlab
     nFrames = int((Lx-framelength)/frameskip + 1)
-    #print("Number of frames: " + str(nFrames))
 
     # Prepare output matrix
     F = [[0 for i in range(nFrames)] for j in range(framelength)]
@@ -117,7 +114,6 @@ def getframes(x,framelength,frameskip):
 
 
 def plotFFTs(x,y, xlim):
-    #Plot the FFT with reduced frequency resolution
     plt.plot(x,y) 
     plt.title("FFT")
     plt.ylabel("Amplitude")
@@ -125,6 +121,28 @@ def plotFFTs(x,y, xlim):
     plt.xlim(0, xlim)
     plt.grid()
     plt.show()
+
+def plot4FFTs(freqXshort, AavPDSshort, DavPDSshort, EavPDSshort, GavPDSshort):
+    fig = plt.figure(figsize=(6, 4))
+    sub1 = fig.add_subplot(221) # instead of plt.subplot(2, 2, 1)
+    sub1.set_title('A4') # non OOP: plt.title('The function f')
+    sub1.set_xlim(0, 7000)
+    sub1.plot(freqXshort,AavPDSshort)
+    sub2 = fig.add_subplot(222)
+    sub2.set_title('D4')
+    sub2.set_xlim(0, 7000)
+    sub2.plot(freqXshort,DavPDSshort)
+    sub3 = fig.add_subplot(223)
+    sub3.set_title('E5')
+    sub3.set_xlim(0, 7000)
+    sub3.plot(freqXshort,EavPDSshort)
+    sub4 = fig.add_subplot(224)
+    sub4.set_title('G3')
+    sub4.set_xlim(0, 7000)
+    sub4.plot(freqXshort,GavPDSshort)
+    plt.tight_layout()
+    plt.show()
+
 
 
 def saveToTextFile(fileName, data):
@@ -185,7 +203,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
         if(note == 'E'):
             numberOfHarmonic = 3
 
-        while(numberOfHarmonic < 40):
+        while(numberOfHarmonic < 50):
             if(f0*numberOfHarmonic > 3000*1.1):
                 #energy = np.log(energy)
                 print("Energy in feature 3: " + str(energy))
@@ -204,7 +222,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
         if(note == 'E'):
             numberOfHarmonic = 5
 
-        while(numberOfHarmonic < 50):
+        while(numberOfHarmonic < 100):
             if(f0*numberOfHarmonic > 14000*1.1):
                 #energy = np.log(energy)
                 print("Energy in feature 4: " + str(energy))

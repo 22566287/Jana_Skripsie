@@ -51,9 +51,9 @@ fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
 for i in range(5):
-    input_data = read(path + "\\" + conv5[i])
+    input_data = read(path + "\\" + conv6[i])
     audio = input_data[1]
-    print("Original audio size: " + str(audio.shape[0]))
+    #print("Original audio size: " + str(audio.shape[0]))
 
     if(i == 0):
         standard = 440
@@ -72,16 +72,16 @@ for i in range(5):
             AfreqXshort[j] = AfreqX[j]
 
         #Find the pitch of the current audio file
-        f0 = pitch_detection(AavPDS, AfreqX, numberofcompr)
+        f0 = pitch_detection(AavPDS, AfreqX, numberofcompr,standard)
 
         #normalise to compensate for loudness        
         AavPDSshort = AavPDSshort/max(AavPDSshort)   
 
         #Calculate features
-        # energy1 = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
-        # energy2 = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
-        # energy3 = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
-        # energy4 = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
+        energy1 = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
 
     if(i == 1):
         standard = 293.66
@@ -100,16 +100,16 @@ for i in range(5):
             DfreqXshort[j] = DfreqX[j]
 
         #Find the pitch of the current audio file
-        f0 = pitch_detection(DavPDS, DfreqX, numberofcompr)
+        f0 = pitch_detection(DavPDS, DfreqX, numberofcompr, standard)
 
         #normalise to compensate for loudness        
         DavPDSshort = DavPDSshort/max(DavPDSshort)   
 
         #Calculate features
-        # energy1 = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
-        # energy2 = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
-        # energy3 = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
-        # energy4 = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
+        energy1 = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
 
     if(i == 2):
         standard = 659.26
@@ -128,16 +128,16 @@ for i in range(5):
             EfreqXshort[j] = EfreqX[j]
 
         #Find the pitch of the current audio file
-        f0 = pitch_detection(EavPDS, EfreqX, numberofcompr)
+        f0 = pitch_detection(EavPDS, EfreqX, numberofcompr, standard)
 
         #normalise to compensate for loudness        
         EavPDSshort = EavPDSshort/max(EavPDSshort)   
 
         #Calculate features
-        # energy1 = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
-        # energy2 = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
-        # energy3 = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
-        # energy4 = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
+        energy1 = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
 
     if(i == 3):
         standard = 1318.51
@@ -155,7 +155,7 @@ for i in range(5):
             freqXshort[j] = freqX[j]
 
         #Find the pitch of the current audio file
-        f0 = pitch_detection(avPDS, freqX, numberofcompr)
+        f0 = pitch_detection(avPDS, freqX, numberofcompr, standard)
 
         #normalise to compensate for loudness        
         avPDSshort = avPDSshort/max(avPDSshort)   
@@ -177,50 +177,26 @@ for i in range(5):
             GfreqXshort[j] = GfreqX[j]
 
         #Find the pitch of the current audio file
-        f0 = pitch_detection(GavPDS, GfreqX, numberofcompr)
+        f0 = pitch_detection(GavPDS, GfreqX, numberofcompr, standard)
 
         #normalise to compensate for loudness        
         GavPDSshort = GavPDSshort/max(GavPDSshort)   
 
         #Calculate features
-        # energy1 = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
-        # energy2 = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
-        # energy3 = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
-        # energy4 = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
+        energy1 = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
+        energy2 = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
+        energy3 = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
+        energy4 = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
     
     #Find the pitch of the current audio file
     print("True expected frequency: " + str(standard) + " Hz")
     print("Pitch detector result: " + str(f0) + " Hz\n")
     freqArr[i] = f0
 
+
 #saveToTextFile("f3freq.txt", freqArr)
+#plot4FFTs(freqXshort, AavPDSshort, DavPDSshort, EavPDSshort, GavPDSshort)
 
-
-fig = plt.figure(figsize=(6, 4))
-t = np.arange(-5.0, 1.0, 0.1)
-
-sub1 = fig.add_subplot(221) # instead of plt.subplot(2, 2, 1)
-sub1.set_title('A4') # non OOP: plt.title('The function f')
-sub1.set_xlim(0, 7000)
-sub1.plot(AfreqXshort,AavPDSshort)
-
-sub2 = fig.add_subplot(222)
-sub2.set_title('D4')
-sub2.set_xlim(0, 7000)
-sub2.plot(DfreqXshort,DavPDSshort)
-
-sub3 = fig.add_subplot(223)
-sub3.set_title('E5')
-sub3.set_xlim(0, 7000)
-sub3.plot(EfreqXshort,EavPDSshort)
-
-sub4 = fig.add_subplot(224)
-sub4.set_title('G3')
-sub4.set_xlim(0, 7000)
-sub4.plot(GfreqXshort,GavPDSshort)
-
-plt.tight_layout()
-plt.show()
 
 
     
