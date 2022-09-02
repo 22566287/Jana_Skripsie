@@ -51,7 +51,7 @@ fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
 for i in range(5):
-    input_data = read(path + "\\" + conv6[i])
+    input_data = read(path + "\\" + fact3[i])
     audio = input_data[1]
     #print("Original audio size: " + str(audio.shape[0]))
 
