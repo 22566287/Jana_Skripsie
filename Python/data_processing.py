@@ -1,3 +1,7 @@
+# This function prepares the wav files and extracts features that can be used for machine
+# learning purposes. The first four features are extracted and the information are stored
+# in csv files, ready for import to the classifier.
+
 from scipy.io.wavfile import read
 import matplotlib.pyplot as plt
 import numpy as np
@@ -67,16 +71,19 @@ for i in range(5):
     fact2[i] = files[65+i]
     fact3[i] = files[70+i]
 
-violinCounter = 0
+violinCounter = -1
 fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
-for i in range(20):
+for i in range(75):
     input_data = read(path + "\\" + files[i])
     audio = input_data[1]
     #print("Original audio size: " + str(audio.shape[0]))
 
+  
+        
     if(i%5 == 0):
+        violinCounter = violinCounter + 1
         print(i)
         standard = 440
         note = 'A'  
@@ -212,8 +219,8 @@ for i in range(20):
         feat3G[violinCounter] = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
         feat4G[violinCounter] = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
     
-        violinCounter = violinCounter + 1
         
+
     #Find the pitch of the current audio file
     # print("True expected frequency: " + str(standard) + " Hz")
     # print("Pitch detector result: " + str(f0) + " Hz\n")

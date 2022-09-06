@@ -1,3 +1,5 @@
+# This file contains all the functions needed to process and store data.
+
 import matplotlib.pyplot as plt
 import numpy as np
 from ctypes import sizeof
@@ -156,7 +158,7 @@ def saveToTextFile(fileName, data):
     file.close() 
 
 def saveToExcelFile(filenamexlsx, filenamecsv, feat1, feat2, feat3,feat4):
-    violin = ["africa1", "africa2", "conv1",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "conv10", "fact1", "fact2", "fact3"]
+    violin = ["africa1", "africa2", "conv1", "conv10",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact2", "fact3"]
     col1 = "feature1"
     col2 = "feature2"
     col3 = "feature3"
