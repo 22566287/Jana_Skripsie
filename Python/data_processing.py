@@ -25,7 +25,27 @@ conv10 = [""]*5
 fact1 = [""]*5
 fact2 = [""]*5
 fact3 = [""]*5
-freqArr = np.zeros(5)
+
+feat1A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+feat1D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+feat1E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+feat1G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
 
 #read data names from folder
 files = readInData()
@@ -47,15 +67,17 @@ for i in range(5):
     fact2[i] = files[65+i]
     fact3[i] = files[70+i]
 
+violinCounter = 0
 fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
-for i in range(5):
-    input_data = read(path + "\\" + fact3[i])
+for i in range(20):
+    input_data = read(path + "\\" + files[i])
     audio = input_data[1]
     #print("Original audio size: " + str(audio.shape[0]))
 
-    if(i == 0):
+    if(i%5 == 0):
+        print(i)
         standard = 440
         note = 'A'  
         print(note)
@@ -78,12 +100,14 @@ for i in range(5):
         AavPDSshort = AavPDSshort/max(AavPDSshort)   
 
         #Calculate features
-        energy1 = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
-        energy2 = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
-        energy3 = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
-        energy4 = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
+        feat1A[violinCounter] = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
+        feat2A[violinCounter] = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
+        feat3A[violinCounter] = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
+        feat4A[violinCounter] = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
 
-    if(i == 1):
+        
+
+    if(i%5 == 1):
         standard = 293.66
         note = 'D' 
         print(note) 
@@ -106,12 +130,12 @@ for i in range(5):
         DavPDSshort = DavPDSshort/max(DavPDSshort)   
 
         #Calculate features
-        energy1 = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
-        energy2 = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
-        energy3 = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
-        energy4 = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
+        feat1D[violinCounter] = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
+        feat2D[violinCounter] = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
+        feat3D[violinCounter] = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
+        feat4D[violinCounter] = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
 
-    if(i == 2):
+    if(i%5 == 2):
         standard = 659.26
         note = 'E'  
         print(note)
@@ -134,33 +158,33 @@ for i in range(5):
         EavPDSshort = EavPDSshort/max(EavPDSshort)   
 
         #Calculate features
-        energy1 = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
-        energy2 = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
-        energy3 = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
-        energy4 = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
+        feat1E[violinCounter] = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
+        feat2E[violinCounter] = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
+        feat3E[violinCounter] = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
+        feat4E[violinCounter] = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
 
-    if(i == 3):
+    if(i%5 == 3):
         standard = 1318.51
         note = 'E'  
 
-        #Reduce the frequency resolution and take the FFT
-        avPDS = get_average_pds(audio,framelength,frameskip)
-        freqX = np.fft.fftfreq(len(avPDS), 1/fs)
+        # #Reduce the frequency resolution and take the FFT
+        # avPDS = get_average_pds(audio,framelength,frameskip)
+        # freqX = np.fft.fftfreq(len(avPDS), 1/fs)
 
-        #Remove negative frequency parts and remove unnecessary data
-        freqXshort = np.zeros(7000)
-        avPDSshort = np.zeros(7000)
-        for j in range(7000):
-            avPDSshort[j] = avPDS[j]
-            freqXshort[j] = freqX[j]
+        # #Remove negative frequency parts and remove unnecessary data
+        # freqXshort = np.zeros(7000)
+        # avPDSshort = np.zeros(7000)
+        # for j in range(7000):
+        #     avPDSshort[j] = avPDS[j]
+        #     freqXshort[j] = freqX[j]
 
-        #Find the pitch of the current audio file
-        f0 = pitch_detection(avPDS, freqX, numberofcompr, standard)
+        # #Find the pitch of the current audio file
+        # f0 = pitch_detection(avPDS, freqX, numberofcompr, standard)
 
-        #normalise to compensate for loudness        
-        avPDSshort = avPDSshort/max(avPDSshort)   
+        # #normalise to compensate for loudness        
+        # avPDSshort = avPDSshort/max(avPDSshort)   
 
-    if(i == 4):
+    if(i%5 == 4):
         standard = 196
         note = 'G'
         print(note)
@@ -183,21 +207,29 @@ for i in range(5):
         GavPDSshort = GavPDSshort/max(GavPDSshort)   
 
         #Calculate features
-        energy1 = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
-        energy2 = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
-        energy3 = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
-        energy4 = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
+        feat1G[violinCounter] = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
+        feat2G[violinCounter] = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
+        feat3G[violinCounter] = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
+        feat4G[violinCounter] = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
     
+        violinCounter = violinCounter + 1
+        
     #Find the pitch of the current audio file
-    print("True expected frequency: " + str(standard) + " Hz")
-    print("Pitch detector result: " + str(f0) + " Hz\n")
-    freqArr[i] = f0
+    # print("True expected frequency: " + str(standard) + " Hz")
+    # print("Pitch detector result: " + str(f0) + " Hz\n")
+
+    
+        
 
 
 #saveToTextFile("f3freq.txt", freqArr)
 #plot4FFTs(freqXshort, AavPDSshort, DavPDSshort, EavPDSshort, GavPDSshort)
 
 
+saveToExcelFile('A4.xlsx', 'A4.csv', feat1A, feat2A, feat3A, feat4A)
+saveToExcelFile('D4.xlsx', 'D4.csv', feat1D, feat2D, feat3D, feat4D)
+saveToExcelFile('E5.xlsx', 'E5.csv', feat1E, feat2E, feat3E, feat4E)
+saveToExcelFile('G3.xlsx', 'G3.csv', feat1G, feat2G, feat3G, feat4G)
 
     
 

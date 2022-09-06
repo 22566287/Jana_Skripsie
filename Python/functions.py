@@ -3,6 +3,7 @@ import numpy as np
 from ctypes import sizeof
 import os
 import os.path
+import pandas as pd
 
 
 def readInData():
@@ -154,6 +155,22 @@ def saveToTextFile(fileName, data):
         file.write(str(data[i]) + " \n") 
     file.close() 
 
+def saveToExcelFile(filenamexlsx, filenamecsv, feat1, feat2, feat3,feat4):
+    violin = ["africa1", "africa2", "conv1",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "conv10", "fact1", "fact2", "fact3"]
+    col1 = "feature1"
+    col2 = "feature2"
+    col3 = "feature3"
+    col4 = "feature4"
+    col5 = "violin"
+
+    data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:violin})
+    energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\'
+    data.to_excel(energyPath + filenamexlsx, sheet_name='sheet1', index=False)
+
+    read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\' + filenamexlsx)
+    read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\' + filenamecsv, index = None, header=True)
+
+
 
 def getEnergyInHarmonic(x, f0, feature, framelength, note):
     energy = 0
@@ -167,7 +184,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
         while(numberOfHarmonic < 20):
             if(f0*numberOfHarmonic > 1000*1.1):
                 #energy = np.log(energy)
-                print("Energy in feature 1: " + str(energy))
+                #print("Energy in feature 1: " + str(energy))
                 break
             for i in range(area):
                 energy += pow(x[n*numberOfHarmonic-offset+i],2)
@@ -187,7 +204,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
         while(numberOfHarmonic < 30):
             if(f0*numberOfHarmonic > 2000*1.1):
                 #energy = np.log(energy)
-                print("Energy in feature 2: " + str(energy))
+                #print("Energy in feature 2: " + str(energy))
                 break
             for i in range(area):
                 energy += pow(x[n*numberOfHarmonic-offset+i],2)
@@ -206,7 +223,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
         while(numberOfHarmonic < 50):
             if(f0*numberOfHarmonic > 3000*1.1):
                 #energy = np.log(energy)
-                print("Energy in feature 3: " + str(energy))
+                #print("Energy in feature 3: " + str(energy))
                 break
             for i in range(area):
                 energy += pow(x[n*numberOfHarmonic-offset+i],2)
@@ -225,7 +242,7 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
         while(numberOfHarmonic < 100):
             if(f0*numberOfHarmonic > 14000*1.1):
                 #energy = np.log(energy)
-                print("Energy in feature 4: " + str(energy))
+                #print("Energy in feature 4: " + str(energy))
                 break
             for i in range(area):
                 energy += pow(x[n*numberOfHarmonic-offset+i],2)
