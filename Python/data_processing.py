@@ -54,35 +54,35 @@ feat4G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 #read data names from folder
 files = readInData()
 
-for i in range(5):
-    africa1[i] = files[i]
-    africa2[i] = files[5+i]
-    conv1[i] = files[10+i]
-    conv10[i] = files[15+i]
-    conv2[i] = files[20+i]
-    conv3[i] = files[25+i]
-    conv4[i] = files[30+i]
-    conv5[i] = files[35+i]
-    conv6[i] = files[40+i]
-    conv7[i] = files[45+i]
-    conv8[i] = files[50+i]
-    conv9[i] = files[55+i]
-    fact1[i] = files[60+i]
-    fact2[i] = files[65+i]
-    fact3[i] = files[70+i]
+# for i in range(5):
+#     africa1[i] = files[i]
+#     africa2[i] = files[5+i]
+#     conv1[i] = files[10+i]
+#     conv10[i] = files[15+i]
+#     conv2[i] = files[20+i]
+#     conv3[i] = files[25+i]
+#     conv4[i] = files[30+i]
+#     conv5[i] = files[35+i]
+#     conv6[i] = files[40+i]
+#     conv7[i] = files[45+i]
+#     conv8[i] = files[50+i]
+#     conv9[i] = files[55+i]
+#     fact1[i] = files[60+i]
+#     fact2[i] = files[65+i]
+#     fact3[i] = files[70+i]
 
 violinCounter = -1
 fs = 96000
 #Read data from directory with specific file
-path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData"
-for i in range(75):
+path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\testSet"
+for i in range(16):
     input_data = read(path + "\\" + files[i])
     audio = input_data[1]
     #print("Original audio size: " + str(audio.shape[0]))
 
   
         
-    if(i%5 == 0):
+    if(i%4 == 0):
         violinCounter = violinCounter + 1
         print(i)
         standard = 440
@@ -114,7 +114,7 @@ for i in range(75):
 
         
 
-    if(i%5 == 1):
+    if(i%4 == 1):
         standard = 293.66
         note = 'D' 
         print(note) 
@@ -142,7 +142,7 @@ for i in range(75):
         feat3D[violinCounter] = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
         feat4D[violinCounter] = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
 
-    if(i%5 == 2):
+    if(i%4 == 2):
         standard = 659.26
         note = 'E'  
         print(note)
@@ -170,9 +170,9 @@ for i in range(75):
         feat3E[violinCounter] = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
         feat4E[violinCounter] = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
 
-    if(i%5 == 3):
-        standard = 1318.51
-        note = 'E'  
+    # if(i%4 == 3):
+    #     standard = 1318.51
+    #     note = 'E'  
 
         # #Reduce the frequency resolution and take the FFT
         # avPDS = get_average_pds(audio,framelength,frameskip)
@@ -191,7 +191,7 @@ for i in range(75):
         # #normalise to compensate for loudness        
         # avPDSshort = avPDSshort/max(avPDSshort)   
 
-    if(i%5 == 4):
+    if(i%4 == 3):
         standard = 196
         note = 'G'
         print(note)
@@ -233,10 +233,10 @@ for i in range(75):
 #plot4FFTs(freqXshort, AavPDSshort, DavPDSshort, EavPDSshort, GavPDSshort)
 
 
-saveToExcelFile('A4.xlsx', 'A4.csv', feat1A, feat2A, feat3A, feat4A)
-saveToExcelFile('D4.xlsx', 'D4.csv', feat1D, feat2D, feat3D, feat4D)
-saveToExcelFile('E5.xlsx', 'E5.csv', feat1E, feat2E, feat3E, feat4E)
-saveToExcelFile('G3.xlsx', 'G3.csv', feat1G, feat2G, feat3G, feat4G)
+saveToExcelFile('A4test.xlsx', 'A4test.csv', feat1A, feat2A, feat3A, feat4A)
+saveToExcelFile('D4test.xlsx', 'D4test.csv', feat1D, feat2D, feat3D, feat4D)
+saveToExcelFile('E5test.xlsx', 'E5test.csv', feat1E, feat2E, feat3E, feat4E)
+saveToExcelFile('G3test.xlsx', 'G3test.csv', feat1G, feat2G, feat3G, feat4G)
 
     
 

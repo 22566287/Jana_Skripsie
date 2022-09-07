@@ -35,13 +35,14 @@ confusion_matrix        #Calculating Model Accuracy
 accuracy = accuracy_score(y_test, y_pred)*100
 print('Accuracy of the model:' + str(round(accuracy, 2)) + ' %.')
 
-dataset.plot(kind ="scatter", x ='sepal_length', y ='petal_length')
-plt.grid()
-plt.show()
+# dataset.plot(kind ="scatter", x ='sepal_length', y ='petal_length')
+# plt.grid()
+# plt.show()
 
 iris = sns.load_dataset('iris')
 sns.set_style("whitegrid")
  
 # sepal_length, petal_length are iris feature data height used to define Height of graph whereas hue store the class of iris dataset.
+plt.figure()
 sns.FacetGrid(iris, hue ="species", height = 6).map(plt.scatter, 'sepal_length', 'petal_length').add_legend()
 plt.show()
