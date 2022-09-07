@@ -15,25 +15,34 @@ f0 = 0.0
 energy = 0
 numberofcompr = 15
 
+feat1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+violin = ["africa1", "africa2", "conv1", "conv10",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact3", "fact2"]
+col1 = "feature1"
+col2 = "feature2"
+col3 = "feature3"
+col4 = "feature4"
+col5 = "violin"
+
 
 #read data names from folder
 # Get the list of all files and directories
 pathOfFiles = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinPiece"
 files = os.listdir(pathOfFiles)
+print(files)
 
 
 fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinPiece"
-for i in range(1):
-    input_data = read(path + "\\" + files[i])
-    audio = input_data[1]
-    #print("Original audio size: " + str(audio.shape[0]))
-
+for i in range(14):
+    if(files[i] != 'desktop.ini'):
+        input_data = read(path + "\\" + files[i])
+        audio = input_data[1]
     print(i)
-    standard = 440
-    note = 'A'  
-    print(note)
 
     #Reduce the frequency resolution and take the FFT
     AavPDS = get_average_pds(audio,framelength,frameskip)
@@ -55,8 +64,6 @@ for i in range(1):
     f0E = pitch_detection(AavPDS, AfreqX, numberofcompr,659.26)
     f0G = pitch_detection(AavPDS, AfreqX, numberofcompr,196)
 
-    
-
     #Calculate features
     f0val = [f0A,f0D,f0E,f0G]
     noteval = ['A', 'D', 'E', 'G']
@@ -65,26 +72,34 @@ for i in range(1):
     totalE3 = 0
     totalE4 = 0
     for k in range(4):
-        energy1 = getEnergyInHarmonic(AavPDSshort, f0val[i], 1,framelength, noteval[i])
-        totalE1 = totalE1 + energy1
+        feat1[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 1,framelength, noteval[k])
+        totalE1 = totalE1 + feat1[i]
 
-        energy2 = getEnergyInHarmonic(AavPDSshort, f0val[i], 2,framelength, noteval[i])
-        totalE2 = totalE2 + energy2
+        feat2[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 2,framelength, noteval[k])
+        totalE2 = totalE2 + feat2[i]
 
-        energy3 = getEnergyInHarmonic(AavPDSshort, f0val[i], 3,framelength, noteval[i])
-        totalE3 = totalE3 + energy3
+        feat3[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 3,framelength, noteval[k])
+        totalE3 = totalE3 + feat3[i]
 
-        energy4 = getEnergyInHarmonic(AavPDSshort, f0val[i], 4,framelength, noteval[i])
-        totalE4 = totalE4 + energy4
-   
-    print(totalE1)
-    print(totalE2)
-    print(totalE3)
-    print(totalE4)
+        feat4[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 4,framelength, noteval[k])
+        totalE4 = totalE4 + feat4[i]
+    
+    feat1[i] = totalE1
+    feat2[i] = totalE2
+    feat3[i] = totalE3
+    feat4[i] = totalE4
 
 
 #saveToExcelFile('A4.xlsx', 'A4.csv', feat1A, feat2A, feat3A, feat4A)
-plotFFTs(AfreqXshort,AavPDSshort, 7000)
+#plotFFTs(AfreqXshort,AavPDSshort, 7000)
+
+# Save data to excel sheet
+data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:violin})
+energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\'
+data.to_excel(energyPath + 'Adagio.xlsx', sheet_name='sheet1', index=False)
+
+read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagio.xlsx')
+read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagio.csv', index = None, header=True)
 
 
 
