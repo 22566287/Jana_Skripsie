@@ -41,3 +41,19 @@ confusion_matrix = confusion_matrix(y_test, y_pred)
 confusion_matrix        #Calculating Model Accuracy
 accuracy = accuracy_score(y_test, y_pred)*100
 print('Accuracy of the model:' + str(round(accuracy, 2)) + ' %.')
+print(confusion_matrix)
+
+import seaborn as sns
+
+ax = sns.heatmap(confusion_matrix, annot=True, cmap='Blues')
+
+ax.set_title('Seaborn Confusion Matrix with labels\n\n');
+ax.set_xlabel('\nPredicted Values')
+ax.set_ylabel('Actual Values ')
+
+
+
+## Display the visualization of the Confusion Matrix.
+plt.show()
+
+
