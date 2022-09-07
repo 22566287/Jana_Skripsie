@@ -13,49 +13,24 @@ def save_multi_image(filename):
         fig.savefig(pp, format='pdf')
     pp.close()
 
-A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\A4\\A4oud.csv")
-D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\D4\\D4.csv")
-print(A4data.head(15))
-print(D4data.head(15))
+A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\A4.csv")
+D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\D4.csv")
+E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\E5.csv")
+G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\G3.csv")
 Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagio.csv")
+print(A4data.head(15))
 
-group = [1,1,2,2,2,2,2,2,2,2,2,2,3,3]
-
-
-# #Dividing Data Into Features and Labels
-# print (A4data.columns)
-# feature_columns = (['feature_1', 'feature_2', 'feature_3', 'feature_4'])
-# X = A4data[feature_columns].values
-# y = A4data['violin'].values   #Label Encoding
-# from sklearn.preprocessing import LabelEncoder
-# le = LabelEncoder()
-# y = le.fit_transform(y)
-
-# A4data.plot(kind ="scatter", x ='feature_1', y ='feature_2')
-# A4data.plot(kind ="scatter", x ='feature_3', y ='feature_4')
-# plt.grid()
-# plt.show()
-
-
-# sns.set_style("whitegrid")
-# sns.FacetGrid(A4data, hue ="violin", height = 6).map(plt.scatter, 'feature_1', 'feature_2').add_legend()
-# sns.FacetGrid(A4data, hue ="violin", height = 6).map(plt.scatter, 'feature_3', 'feature_4').add_legend()
-# sns.FacetGrid(D4data, hue ="violin", height = 6).map(plt.scatter, 'feature_1', 'feature_2').add_legend()
-# plt.show()
-
-print(np.shape(A4data))
-print(A4data.iloc[:,0:2])
 
 #create colors for labels
-#colors = np.array(["red", "red", "green", "green", "green","green","green","green","green","green","green","green", "blue", "blue", "blue"])
-colors = np.array(["red", "hotpink", "aqua", "turquoise", "lightseagreen","paleturquoise","gold","goldenrod","orange","darkorange","olive","cyan", "lime", "lawngreen", "lightgreen"])
+colors = np.array(["red", "red", "green", "green", "green","green","green","green","green","green","green","green", "blue", "blue", "blue"])
+#colors = np.array(["red", "hotpink", "aqua", "turquoise", "lightseagreen","paleturquoise","gold","goldenrod","orange","darkorange","olive","cyan", "lime", "lawngreen", "lightgreen"])
 annotations=["A1","A2","C1","C10","C2","C3","C4","C5","C6","C7","C8","C9","F1","F2","F3"]
 
 a1 = plt.figure(1)
 plt.scatter(A4data.iloc[:,0:1], A4data.iloc[:,1:2], c=colors)
 plt.title("Feature 1 and 2 of A4 energy")
-plt.ylabel("Feature 2")
-plt.xlabel("Feature 1")
+plt.ylabel("F2: 1kHz - 2kHz")
+plt.xlabel("F1: <1kHz")
 plt.grid()
 for i, label in enumerate(annotations):
     plt.annotate(label, (A4data.iat[i,0], A4data.iat[i,1]))
@@ -64,43 +39,82 @@ for i, label in enumerate(annotations):
 a2 = plt.figure(2)
 plt.scatter(A4data.iloc[:,2:3], A4data.iloc[:,3:4], c=colors)
 plt.title("Feature 3 and 4 of A4 energy")
-plt.ylabel("Feature 4")
-plt.xlabel("Feature 3")
+plt.ylabel("F4: >3kHz")
+plt.xlabel("F3: 2kHz - 3kHz")
 plt.grid()
 for i, label in enumerate(annotations):
     plt.annotate(label, (A4data.iat[i,2], A4data.iat[i,3]))
 
 
-# d1 = plt.figure(3)
-# plt.scatter(D4data.iloc[:,0:1], D4data.iloc[:,1:2], c=colors)
-# plt.title("Feature 1 and 2 of D4 energy")
-# plt.ylabel("Feature 2")
-# plt.xlabel("Feature 1")
-# plt.grid()
+d1 = plt.figure(3)
+plt.scatter(D4data.iloc[:,0:1], D4data.iloc[:,1:2], c=colors)
+plt.title("Feature 1 and 2 of D4 energy")
+plt.ylabel("F2: 1kHz - 2kHz")
+plt.xlabel("F1: <1kHz")
+plt.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (D4data.iat[i,0], D4data.iat[i,1]))
 
-# d2 = plt.figure(4)
-# plt.scatter(D4data.iloc[:,2:3], D4data.iloc[:,3:4], c=colors)
-# plt.title("Feature 3 and 4 of D4 energy")
-# plt.ylabel("Feature 4")
-# plt.xlabel("Feature 3")
-# plt.grid()
+d2 = plt.figure(4)
+plt.scatter(D4data.iloc[:,2:3], D4data.iloc[:,3:4], c=colors)
+plt.title("Feature 3 and 4 of D4 energy")
+plt.ylabel("F4: >3kHz")
+plt.xlabel("F3: 2kHz - 3kHz")
+plt.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (D4data.iat[i,2], D4data.iat[i,3]))
+
+e1 = plt.figure(5)
+plt.scatter(E5data.iloc[:,0:1], E5data.iloc[:,1:2], c=colors)
+plt.title("Feature 1 and 2 of E5 energy")
+plt.ylabel("F2: 1kHz - 2kHz")
+plt.xlabel("F1: <1kHz")
+plt.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (E5data.iat[i,0], E5data.iat[i,1]))
+
+e2 = plt.figure(6)
+plt.scatter(E5data.iloc[:,2:3], E5data.iloc[:,3:4], c=colors)
+plt.title("Feature 3 and 4 of E5 energy")
+plt.ylabel("F4: >3kHz")
+plt.xlabel("F3: 2kHz - 3kHz")
+plt.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (E5data.iat[i,2], E5data.iat[i,3]))
+
+g1 = plt.figure(7)
+plt.scatter(G3data.iloc[:,0:1], G3data.iloc[:,1:2], c=colors)
+plt.title("Feature 1 and 2 of G3 energy")
+plt.ylabel("F2: 1kHz - 2kHz")
+plt.xlabel("F1: <1kHz")
+plt.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (G3data.iat[i,0], G3data.iat[i,1]))
+
+g2 = plt.figure(8)
+plt.scatter(G3data.iloc[:,2:3], G3data.iloc[:,3:4], c=colors)
+plt.title("Feature 3 and 4 of G3 energy")
+plt.ylabel("F4: >3kHz")
+plt.xlabel("F3: 2kHz - 3kHz")
+plt.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (G3data.iat[i,2], G3data.iat[i,3]))
 
 
-
-adagio = plt.figure(5)
+adagio1 = plt.figure(9)
 plt.scatter(Adagiodata.iloc[:,0:1], Adagiodata.iloc[:,1:2], c = colors)
 plt.title("Feature 1 and 2 of Adagio energy")
-plt.ylabel("Feature 2")
-plt.xlabel("Feature 1")
+plt.ylabel("F2: 1kHz - 2kHz")
+plt.xlabel("F1: <1kHz")
 plt.grid()
 for i, label in enumerate(annotations):
     plt.annotate(label, (Adagiodata.iat[i,0], Adagiodata.iat[i,1]))
 
-adagio = plt.figure(6)
+adagio2 = plt.figure(10)
 plt.scatter(Adagiodata.iloc[:,2:3], Adagiodata.iloc[:,3:4], c = colors)
 plt.title("Feature 3 and 4 of Adagio energy")
-plt.ylabel("Feature 4")
-plt.xlabel("Feature 3")
+plt.ylabel("F4: >3kHz")
+plt.xlabel("F3: 2kHz - 3kHz")
 plt.grid()
 for i, label in enumerate(annotations):
     plt.annotate(label, (Adagiodata.iat[i,2], Adagiodata.iat[i,3]))
@@ -109,15 +123,6 @@ for i, label in enumerate(annotations):
 #plt.show()
 save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\results\\energyResults.pdf")
 
-
-# plt.rcParams["figure.figsize"] = [7.00, 3.50]
-# plt.rcParams["figure.autolayout"] = True
-
-# fig1 = plt.figure()
-# plt.plot([2, 1, 7, 1, 2], color='red', lw=5)
-
-# fig2 = plt.figure()
-# plt.plot([3, 5, 1, 5, 3], color='green', lw=5)
 
 
 
