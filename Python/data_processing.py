@@ -75,7 +75,7 @@ violinCounter = -1
 fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\testSet"
-for i in range(16):
+for i in range(60):
     input_data = read(path + "\\" + files[i])
     audio = input_data[1]
     #print("Original audio size: " + str(audio.shape[0]))
