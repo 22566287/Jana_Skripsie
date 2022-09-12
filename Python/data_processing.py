@@ -30,52 +30,36 @@ fact1 = [""]*5
 fact2 = [""]*5
 fact3 = [""]*5
 
-feat1A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat2A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat3A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat4A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat1A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4A = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-feat1D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat2D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat3D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat4D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat1D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4D = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-feat1E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat2E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat3E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat4E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat1E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4E = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-feat1G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat2G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat3G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat4G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat1G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4G = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 
 #read data names from folder
 files = readInData()
-
-# for i in range(5):
-#     africa1[i] = files[i]
-#     africa2[i] = files[5+i]
-#     conv1[i] = files[10+i]
-#     conv10[i] = files[15+i]
-#     conv2[i] = files[20+i]
-#     conv3[i] = files[25+i]
-#     conv4[i] = files[30+i]
-#     conv5[i] = files[35+i]
-#     conv6[i] = files[40+i]
-#     conv7[i] = files[45+i]
-#     conv8[i] = files[50+i]
-#     conv9[i] = files[55+i]
-#     fact1[i] = files[60+i]
-#     fact2[i] = files[65+i]
-#     fact3[i] = files[70+i]
+print(files)
 
 violinCounter = -1
 fs = 96000
 #Read data from directory with specific file
 path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\testSet"
-for i in range(60):
+for i in range(72):
     input_data = read(path + "\\" + files[i])
     audio = input_data[1]
     #print("Original audio size: " + str(audio.shape[0]))
@@ -233,10 +217,10 @@ for i in range(60):
 #plot4FFTs(freqXshort, AavPDSshort, DavPDSshort, EavPDSshort, GavPDSshort)
 
 
-saveToExcelFile('A4test.xlsx', 'A4test.csv', feat1A, feat2A, feat3A, feat4A)
-saveToExcelFile('D4test.xlsx', 'D4test.csv', feat1D, feat2D, feat3D, feat4D)
-saveToExcelFile('E5test.xlsx', 'E5test.csv', feat1E, feat2E, feat3E, feat4E)
-saveToExcelFile('G3test.xlsx', 'G3test.csv', feat1G, feat2G, feat3G, feat4G)
+saveToExcelFile('A4testNew.xlsx', 'A4testNew.csv', feat1A, feat2A, feat3A, feat4A)
+saveToExcelFile('D4testNew.xlsx', 'D4testNew.csv', feat1D, feat2D, feat3D, feat4D)
+saveToExcelFile('E5testNew.xlsx', 'E5testNew.csv', feat1E, feat2E, feat3E, feat4E)
+saveToExcelFile('G3testNew.xlsx', 'G3testNew.csv', feat1G, feat2G, feat3G, feat4G)
 
     
 

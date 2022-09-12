@@ -15,12 +15,13 @@ f0 = 0.0
 energy = 0
 numberofcompr = 15
 
-feat1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat4 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat4 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-violin = ["africa1", "africa2", "conv1", "conv10",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact3", "fact2"]
+#violin = ["africa1", "africa2", "conv1", "conv10", "conv11", "conv12", "conv13",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact3", "fact2"]
+violin = ["africa", "africa", "conv", "conv", "conv", "conv", "conv",  "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "fact", "fact", "fact"]
 col1 = "feature1"
 col2 = "feature2"
 col3 = "feature3"
@@ -30,15 +31,15 @@ col5 = "violin"
 
 #read data names from folder
 # Get the list of all files and directories
-pathOfFiles = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinPiece"
+pathOfFiles = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTestSet"
 files = os.listdir(pathOfFiles)
 print(files)
 
 
 fs = 96000
 #Read data from directory with specific file
-path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinPiece"
-for i in range(14):
+path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTestSet"
+for i in range(17):
     if(files[i] != 'desktop.ini'):
         input_data = read(path + "\\" + files[i])
         audio = input_data[1]
@@ -95,11 +96,11 @@ for i in range(14):
 
 # Save data to excel sheet
 data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:violin})
-energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\'
-data.to_excel(energyPath + 'Adagio.xlsx', sheet_name='sheet1', index=False)
+energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\classifierInput\\'
+data.to_excel(energyPath + 'AdagioTest.xlsx', sheet_name='sheet1', index=False)
 
-read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagio.xlsx')
-read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagio.csv', index = None, header=True)
+read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\classifierInput\\AdagioTest.xlsx')
+read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\classifierInput\\AdagioTest.csv', index = None, header=True)
 
 
 

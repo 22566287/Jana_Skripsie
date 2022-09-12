@@ -13,15 +13,15 @@ def save_multi_image(filename):
     pp.close()
 
 # import the data
-A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\A4.csv")
-D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\D4.csv")
-E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\E5.csv")
-G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\G3.csv")
-Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagio.csv")
+A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\A4new.csv")
+D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\D4new.csv")
+E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\E5new.csv")
+G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\G3new.csv")
+Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\inputs\\Adagionew.csv")
 #print(A4data.head(15))
-annotations=["A1","A2","C1","C10","C2","C3","C4","C5","C6","C7","C8","C9","F1","F2","F3"]
-targets = ['africa1', 'africa2', 'conv1', 'conv10', 'conv2', 'conv3', 'conv4', 'conv5', 'conv6', 'conv7', 'conv8', 'conv9', 'fact1', 'fact2', 'fact3']
-colors = ['r','r','g','g','g','g','g','g','g','g','g','g','b','b','b']
+annotations=["A1","A2","C1","C10","C11","C12","C13","C2","C3","C4","C5","C6","C7","C8","C9","F1","F2","F3"]
+targets = ['africa1', 'africa2', 'conv1', 'conv10', 'conv11', 'conv12', 'conv13', 'conv2', 'conv3', 'conv4', 'conv5', 'conv6', 'conv7', 'conv8', 'conv9', 'fact1', 'fact2', 'fact3']
+colors = ['r','r','g','g','g','g','g','g','g','g','g','g','g','g','g','b','b','b']
 
 #A
 # standardize the data
@@ -150,6 +150,37 @@ for i, label in enumerate(annotations):
     plt.annotate(label, (finalDfG.loc[i, 'pc1'], finalDfG.loc[i, 'pc2']))
 #plt.show()
 
+#Adagio
+# standardize the data
+features = ['feature1', 'feature2', 'feature3', 'feature4']# Separating out the features
+xAdagio = Adagiodata.loc[:, features].values# Separating out the target
+yAdagio = Adagiodata.loc[:,['violin']].values# Standardizing the features
+xAdagio = StandardScaler().fit_transform(xAdagio)
+
+# PCA projection to 2D
+pca = PCA(n_components=2)
+principalComponentsAdagio = pca.fit_transform(xAdagio)
+principalDfAdagio = pd.DataFrame(data = principalComponentsAdagio, columns = ['pc1', 'pc2'])
+finalDfAdagio = pd.concat([principalDfAdagio, Adagiodata[['violin']]], axis = 1)
+
+# visualize 2D projection
+fig = plt.figure(figsize = (10,7))
+ax = fig.add_subplot(1,1,1) 
+ax.set_xlabel('Principal Component 1', fontsize = 15)
+ax.set_ylabel('Principal Component 2', fontsize = 15)
+ax.set_title('Adagio energy PCA ', fontsize = 20)
+
+for target, color in zip(targets,colors):
+    indicesToKeep = finalDfAdagio['violin'] == target
+    ax.scatter(finalDfAdagio.loc[indicesToKeep, 'pc1']
+               , finalDfAdagio.loc[indicesToKeep, 'pc2']
+               , c = color
+               , s = 50)
+ax.legend(targets)
+ax.grid()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (finalDfAdagio.loc[i, 'pc1'], finalDfAdagio.loc[i, 'pc2']))
+#plt.show()
 
 
-save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\results\\PCAenergyResults.pdf")
+save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\results\\PCAenergyResultsExtraV.pdf")
