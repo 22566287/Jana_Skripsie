@@ -31,64 +31,68 @@ col5 = "violin"
 
 #read data names from folder
 # Get the list of all files and directories
-pathOfFiles = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTestSet"
+pathOfFiles = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTrainingSet"
 files = os.listdir(pathOfFiles)
 print(files)
-
+audioArr = [0]*9
 
 fs = 96000
 #Read data from directory with specific file
-path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTestSet"
+path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTrainingSet"
 for i in range(17):
     if(files[i] != 'desktop.ini'):
         input_data = read(path + "\\" + files[i])
         audio = input_data[1]
     print(i)
 
-    #Reduce the frequency resolution and take the FFT
-    AavPDS = get_average_pds(audio,framelength,frameskip)
-    AfreqX = np.fft.fftfreq(len(AavPDS), 1/fs)
+    #Split training set into 4 vectors instead of one for better results in classifier
+    audioArr = timeFrame(audio, audioArr,9)
 
-    #Remove negative frequency parts and remove unnecessary data
-    AfreqXshort = np.zeros(7000)
-    AavPDSshort = np.zeros(7000)
-    for j in range(7000):
-        AavPDSshort[j] = AavPDS[j]
-        AfreqXshort[j] = AfreqX[j]
+    for m in range(9):
+        #Reduce the frequency resolution and take the FFT
+        AavPDS = get_average_pds(audioArr[m],framelength,frameskip)
+        AfreqX = np.fft.fftfreq(len(AavPDS), 1/fs)
 
-    #normalise to compensate for loudness        
-    AavPDSshort = AavPDSshort/max(AavPDSshort)  
+        #Remove negative frequency parts and remove unnecessary data
+        AfreqXshort = np.zeros(7000)
+        AavPDSshort = np.zeros(7000)
+        for j in range(7000):
+            AavPDSshort[j] = AavPDS[j]
+            AfreqXshort[j] = AfreqX[j]
 
-    #Find the pitch of the current audio file
-    f0A = pitch_detection(AavPDS, AfreqX, numberofcompr,440)
-    f0D = pitch_detection(AavPDS, AfreqX, numberofcompr,293.66)
-    f0E = pitch_detection(AavPDS, AfreqX, numberofcompr,659.26)
-    f0G = pitch_detection(AavPDS, AfreqX, numberofcompr,196)
+        #normalise to compensate for loudness        
+        AavPDSshort = AavPDSshort/max(AavPDSshort)  
 
-    #Calculate features
-    f0val = [f0A,f0D,f0E,f0G]
-    noteval = ['A', 'D', 'E', 'G']
-    totalE1 = 0
-    totalE2 = 0
-    totalE3 = 0
-    totalE4 = 0
-    for k in range(4):
-        feat1[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 1,framelength, noteval[k])
-        totalE1 = totalE1 + feat1[i]
+        #Find the pitch of the current audio file
+        f0A = pitch_detection(AavPDS, AfreqX, numberofcompr,440)
+        f0D = pitch_detection(AavPDS, AfreqX, numberofcompr,293.66)
+        f0E = pitch_detection(AavPDS, AfreqX, numberofcompr,659.26)
+        f0G = pitch_detection(AavPDS, AfreqX, numberofcompr,196)
 
-        feat2[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 2,framelength, noteval[k])
-        totalE2 = totalE2 + feat2[i]
+        #Calculate features
+        f0val = [f0A,f0D,f0E,f0G]
+        noteval = ['A', 'D', 'E', 'G']
+        totalE1 = 0
+        totalE2 = 0
+        totalE3 = 0
+        totalE4 = 0
+        for k in range(4):
+            feat1[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 1,framelength, noteval[k])
+            totalE1 = totalE1 + feat1[i]
 
-        feat3[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 3,framelength, noteval[k])
-        totalE3 = totalE3 + feat3[i]
+            feat2[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 2,framelength, noteval[k])
+            totalE2 = totalE2 + feat2[i]
 
-        feat4[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 4,framelength, noteval[k])
-        totalE4 = totalE4 + feat4[i]
-    
-    feat1[i] = totalE1
-    feat2[i] = totalE2
-    feat3[i] = totalE3
-    feat4[i] = totalE4
+            feat3[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 3,framelength, noteval[k])
+            totalE3 = totalE3 + feat3[i]
+
+            feat4[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 4,framelength, noteval[k])
+            totalE4 = totalE4 + feat4[i]
+        
+        feat1[i] = totalE1
+        feat2[i] = totalE2
+        feat3[i] = totalE3
+        feat4[i] = totalE4
 
 
 #saveToExcelFile('A4.xlsx', 'A4.csv', feat1A, feat2A, feat3A, feat4A)

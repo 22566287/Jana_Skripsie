@@ -13,17 +13,17 @@ def save_multi_image(filename):
     pp.close()
 
 # read in test data
-#A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\A4trainNew.csv")
-#D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\D4trainNew.csv")
-#E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\E5trainNew.csv")
-#G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\G3trainNew.csv")
-Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\AdagioTrain.csv")
+#A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\A4train.csv")
+#D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\D4train.csv")
+#E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\E5train.csv")
+G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\G3train.csv")
+#Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\AdagioTrain.csv")
 # print(D4data.head(15))
 
 # Dividing Data Into Features and Labels
 feature_columns = (['feature1', 'feature2', 'feature3', 'feature4'])
-X_train = Adagiodata[feature_columns].values
-y_train = Adagiodata['violin'].values   #Label Encoding
+X_train = G3data[feature_columns].values
+y_train = G3data['violin'].values   #Label Encoding
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 y_train = le.fit_transform(y_train)
@@ -33,14 +33,14 @@ y_train = le.fit_transform(y_train)
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)#Fitting the Model and Making Predictions 
 
 
-#A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\A4testNew.csv")
-#D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\D4testNew.csv")
-#E5dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\E5testNew.csv")
-#G3dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\G3testNew.csv")
-AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\AdagioTest.csv")
+#A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\A4testNew.csv")
+#D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\D4testNew.csv")
+#E5dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\E5testNew.csv")
+G3dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\G3testNew.csv")
+#AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\AdagioTest.csv")
 
-X_test = AdagiodataTest[feature_columns].values
-y_test = AdagiodataTest['violin'].values   #Label Encoding
+X_test = G3dataTest[feature_columns].values
+y_test = G3dataTest['violin'].values   #Label Encoding
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 y_test = le.fit_transform(y_test)
@@ -49,7 +49,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import cross_val_score
 
-classifier = KNeighborsClassifier(n_neighbors=2)
+classifier = KNeighborsClassifier(n_neighbors=3)
 classifier.fit(X_train, y_train)
 y_pred = classifier.predict(X_test)
 
@@ -63,7 +63,7 @@ import seaborn as sns
 plt.figure(figsize=(9, 6))
 ax = sns.heatmap(confusion_matrix, annot=True, cmap='Blues')
 
-ax.set_title('Adagio Confusion Matrix Accuracy = ' + str(round(accuracy, 2)) + ' %.' + '\n\n')
+ax.set_title('G3 Confusion Matrix Accuracy = ' + str(round(accuracy, 2)) + ' %.' + '\n\n')
 ax.set_xlabel('\nPredicted Values')
 ax.set_ylabel('Actual Values ')
 ax.xaxis.set_ticklabels(['africa', 'conv', 'fact']); ax.yaxis.set_ticklabels(['africa', 'conv', 'fact']);
@@ -73,12 +73,20 @@ ax.xaxis.set_ticklabels(['africa', 'conv', 'fact']); ax.yaxis.set_ticklabels(['a
 ## Display the visualization of the Confusion Matrix.
 # print(X_train[0].shape)
 # print(y_train.shape)
+annotations=["A1","A2","C1","C10","C11","C12","C13","C2","C3","C4","C5","C6","C7","C8","C9","F1","F2","F3"]
 
-# plt.figure()
-# plt.scatter(X_train[0], X_train[1])
+plt.figure()
+a = plt.scatter(X_train[:,0:1], X_train[:,3:4], label='Training set')
+b = plt.scatter(X_test[:,0:1], X_test[:,3:4], label='Test set')
+plt.title("Feature 1 and 4 of G3 kNN test and training set")
+plt.ylabel("F4: >3kHz")
+plt.xlabel("F1: <1kHz")
+plt.legend()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (X_test[i,0:1], X_test[i,3:4]))
 # plt.scatter(X_train[2], X_train[3])
 # plt.scatter(X_test[0], X_test[1])
 #plt.show()
-save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\kNNresults\\NE3CcmAdagiokNN.pdf")
+save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\kNNresults\\NE3C4cmG3kNN.pdf")
 
 

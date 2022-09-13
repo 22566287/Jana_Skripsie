@@ -10,7 +10,7 @@ import pandas as pd
 
 def readInData():
     # Get the list of all files and directories
-    path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\testSet"
+    path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\trainingSet"
     dir_list = os.listdir(path)
     return dir_list
 
@@ -116,6 +116,13 @@ def getframes(x,framelength,frameskip):
     return F
 
 
+def timeFrame(audio, audioArr,split):
+    audio = np.reshape(audio, (audio.shape[0],1))
+    audioArr = np.array_split(audio,split)
+    return audioArr
+
+
+
 def plotFFTs(x,y, xlim):
     plt.plot(x,y) 
     plt.title("FFT")
@@ -159,7 +166,14 @@ def saveToTextFile(fileName, data):
 
 def saveToExcelFile(filenamexlsx, filenamecsv, feat1, feat2, feat3,feat4):
     #violin = ["africa1", "africa2", "conv1", "conv10",  "conv11", "conv12", "conv13", "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact2", "fact3"]
-    violin = ["africa", "africa", "conv", "conv",  "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "fact", "fact", "fact"]
+    violin = ["africa","africa","africa","africa","africa","africa","africa", "africa", 
+    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv",
+    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
+    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
+    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
+    "conv","conv","conv","conv","fact","fact","fact","fact", "fact","fact","fact","fact", 
+    "fact","fact","fact","fact"]
+    #violin = ["africa","africa","conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv","conv","fact","fact","fact"]
     col1 = "feature1"
     col2 = "feature2"
     col3 = "feature3"
@@ -167,11 +181,11 @@ def saveToExcelFile(filenamexlsx, filenamecsv, feat1, feat2, feat3,feat4):
     col5 = "violin"
 
     data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:violin})
-    energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\'
+    energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\'
     data.to_excel(energyPath + filenamexlsx, sheet_name='sheet1', index=False)
 
-    read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\' + filenamexlsx)
-    read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\naiveExp3Classes\\classifierInput\\' + filenamecsv, index = None, header=True)
+    read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\' + filenamexlsx)
+    read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\' + filenamecsv, index = None, header=True)
 
 
 
