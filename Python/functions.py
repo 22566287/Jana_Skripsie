@@ -107,6 +107,7 @@ def getframes(x,framelength,frameskip):
     # Prepare output matrix
     F = [[0 for i in range(nFrames)] for j in range(framelength)]
     F = np.reshape(F, (framelength,nFrames))
+    #print(np.shape(F))
 
     # Now divide x into frames
     for i in range(nFrames):
@@ -118,7 +119,9 @@ def getframes(x,framelength,frameskip):
 
 def timeFrame(audio, audioArr,split):
     audio = np.reshape(audio, (audio.shape[0],1))
+    print(audio.shape)
     audioArr = np.array_split(audio,split)
+    print(audioArr[0].shape)
     return audioArr
 
 

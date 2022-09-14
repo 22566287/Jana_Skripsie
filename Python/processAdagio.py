@@ -15,18 +15,44 @@ f0 = 0.0
 energy = 0
 numberofcompr = 15
 
-feat1 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat2 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat3 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-feat4 = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+feat1, feat2, feat3, feat4 = [0]*90, [0]*90, [0]*90, [0]*90
 
 #violin = ["africa1", "africa2", "conv1", "conv10", "conv11", "conv12", "conv13",  "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact3", "fact2"]
-violin = ["africa", "africa", "conv", "conv", "conv", "conv", "conv",  "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "fact", "fact", "fact"]
+#violin = ["africa", "africa", "conv", "conv", "conv", "conv", "conv",  "conv", "conv", "conv", "conv", "conv", "conv", "conv", "conv", "fact", "fact", "fact"]
+violin = ["africa","africa","africa","africa","africa",
+    "africa","africa","africa", "africa","africa",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "conv","conv","conv","conv","conv",
+    "fact","fact","fact","fact","fact",
+    "fact","fact","fact","fact","fact",
+    "fact","fact","fact","fact","fact"]
+# violin = ["africa","africa","africa","africa",
+#     "conv","conv","conv","conv",
+#     "conv","conv","conv","conv",
+#     "conv","conv","conv","conv",
+#     "conv","conv","conv","conv",
+#     "conv","conv","conv","conv",
+#     "conv","conv","conv","conv",
+#     "conv","conv","fact","fact",
+#     "fact","fact","fact","fact"]
+
 col1 = "feature1"
 col2 = "feature2"
 col3 = "feature3"
 col4 = "feature4"
 col5 = "violin"
+print(len(violin))
 
 
 #read data names from folder
@@ -34,7 +60,8 @@ col5 = "violin"
 pathOfFiles = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\adagioTrainingSet"
 files = os.listdir(pathOfFiles)
 print(files)
-audioArr = [0]*9
+audioArr = [0]*5
+frameCounter = -1
 
 fs = 96000
 #Read data from directory with specific file
@@ -46,9 +73,11 @@ for i in range(17):
     print(i)
 
     #Split training set into 4 vectors instead of one for better results in classifier
-    audioArr = timeFrame(audio, audioArr,9)
+    audioArr = timeFrame(audio, audioArr,5)
+    frameCounter = -1
 
-    for m in range(9):
+    for m in range(5):
+        frameCounter = frameCounter + 1
         #Reduce the frequency resolution and take the FFT
         AavPDS = get_average_pds(audioArr[m],framelength,frameskip)
         AfreqX = np.fft.fftfreq(len(AavPDS), 1/fs)
@@ -77,22 +106,22 @@ for i in range(17):
         totalE3 = 0
         totalE4 = 0
         for k in range(4):
-            feat1[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 1,framelength, noteval[k])
-            totalE1 = totalE1 + feat1[i]
+            feat1[5*i + frameCounter] = getEnergyInHarmonic(AavPDSshort, f0val[k], 1,framelength, noteval[k])
+            totalE1 = totalE1 + feat1[5*i + frameCounter]
 
-            feat2[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 2,framelength, noteval[k])
-            totalE2 = totalE2 + feat2[i]
+            feat2[5*i + frameCounter] = getEnergyInHarmonic(AavPDSshort, f0val[k], 2,framelength, noteval[k])
+            totalE2 = totalE2 + feat2[5*i + frameCounter]
 
-            feat3[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 3,framelength, noteval[k])
-            totalE3 = totalE3 + feat3[i]
+            feat3[5*i + frameCounter] = getEnergyInHarmonic(AavPDSshort, f0val[k], 3,framelength, noteval[k])
+            totalE3 = totalE3 + feat3[5*i + frameCounter]
 
-            feat4[i] = getEnergyInHarmonic(AavPDSshort, f0val[k], 4,framelength, noteval[k])
-            totalE4 = totalE4 + feat4[i]
+            feat4[5*i + frameCounter] = getEnergyInHarmonic(AavPDSshort, f0val[k], 4,framelength, noteval[k])
+            totalE4 = totalE4 + feat4[5*i + frameCounter]
         
-        feat1[i] = totalE1
-        feat2[i] = totalE2
-        feat3[i] = totalE3
-        feat4[i] = totalE4
+        feat1[5*i + frameCounter] = totalE1
+        feat2[5*i + frameCounter] = totalE2
+        feat3[5*i + frameCounter] = totalE3
+        feat4[5*i + frameCounter] = totalE4
 
 
 #saveToExcelFile('A4.xlsx', 'A4.csv', feat1A, feat2A, feat3A, feat4A)
@@ -100,11 +129,11 @@ for i in range(17):
 
 # Save data to excel sheet
 data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:violin})
-energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\classifierInput\\'
-data.to_excel(energyPath + 'AdagioTest.xlsx', sheet_name='sheet1', index=False)
+energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\'
+data.to_excel(energyPath + 'AdagioTrain5again.xlsx', sheet_name='sheet1', index=False)
 
-read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\classifierInput\\AdagioTest.xlsx')
-read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExperiment\\classifierInput\\AdagioTest.csv', index = None, header=True)
+read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\AdagioTrain5again.xlsx')
+read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\AdagioTrain5again.csv', index = None, header=True)
 
 
 
