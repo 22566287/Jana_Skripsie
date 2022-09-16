@@ -14,28 +14,14 @@ maxfreq = 14000
 f0 = 0.0
 energy = 0
 numberofcompr = 15
-africa1 = [""]*5
-africa2 = [""]*5
-conv1 = [""]*5
-conv2 = [""]*5
-conv3 = [""]*5
-conv4 = [""]*5
-conv5 = [""]*5
-conv6 = [""]*5
-conv7 = [""]*5
-conv8 = [""]*5
-conv9 = [""]*5
-conv10 = [""]*5
-fact1 = [""]*5
-fact2 = [""]*5
-fact3 = [""]*5
-
-feat1A, feat2A, feat3A, feat4A = [0]*72, [0]*72, [0]*72, [0]*72
-feat1D, feat2D, feat3D, feat4D = [0]*72, [0]*72, [0]*72, [0]*72
-feat1E, feat2E, feat3E, feat4E = [0]*72, [0]*72, [0]*72, [0]*72
-feat1G, feat2G, feat3G, feat4G = [0]*72, [0]*72, [0]*72, [0]*72
-
-
+feat1A, feat2A, feat3A, feat4A, feat5A = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat6A, feat7A, feat8A, feat9A, feat10A = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat1D, feat2D, feat3D, feat4D, feat5D = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat6D, feat7D, feat8D, feat9D, feat10D = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat1E, feat2E, feat3E, feat4E, feat5E = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat6E, feat7E, feat8E, feat9E, feat10E = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat1G, feat2G, feat3G, feat4G, feat5G = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
+feat6G, feat7G, feat8G, feat9G, feat10G = [0]*72, [0]*72, [0]*72, [0]*72, [0]*72
 
 #read data names from folder
 files = readInData()
@@ -50,12 +36,10 @@ path = "C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\
 for i in range(72):
     input_data = read(path + "\\" + files[i])
     audio = input_data[1]
-    #print("Original audio size: " + str(audio.shape[0]))
 
     #Split training set into 4 vectors instead of one for better results in classifier
     audioArr = timeFrame(audio, audioArr,4)
 
-  
         
     if(i%4 == 0):
         violinCounter = violinCounter + 1
@@ -84,11 +68,22 @@ for i in range(72):
             #normalise to compensate for loudness        
             AavPDSshort = AavPDSshort/max(AavPDSshort)   
 
-            #Calculate features
-            feat1A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
-            feat2A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
-            feat3A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
-            feat4A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
+            #Calculate Meinel features
+            # feat1A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 1,framelength, note)
+            # feat2A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 2,framelength, note)
+            # feat3A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 3,framelength, note)
+            # feat4A[4*violinCounter + noteCounter] = getEnergyInHarmonic(AavPDSshort, f0, 4,framelength, note)
+            
+            feat1A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 1, framelength)
+            feat2A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 2, framelength)
+            feat3A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 3, framelength)
+            feat4A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 4, framelength)
+            feat5A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 5, framelength)
+            feat6A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 6, framelength)
+            feat7A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 7, framelength)
+            feat8A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 8, framelength)
+            feat9A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 9, framelength)
+            feat10A[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 10, framelength)
 
             
 
@@ -117,11 +112,23 @@ for i in range(72):
             #normalise to compensate for loudness        
             DavPDSshort = DavPDSshort/max(DavPDSshort)   
 
-            #Calculate features
-            feat1D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
-            feat2D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
-            feat3D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
-            feat4D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
+            #Calculate Meinel features
+            # feat1D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 1,framelength, note)
+            # feat2D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 2,framelength, note)
+            # feat3D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 3,framelength, note)
+            # feat4D[4*violinCounter + noteCounter] = getEnergyInHarmonic(DavPDSshort, f0, 4,framelength, note)
+
+            feat1D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 1, framelength)
+            feat2D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 2, framelength)
+            feat3D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 3, framelength)
+            feat4D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 4, framelength)
+            feat5D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 5, framelength)
+            feat6D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 6, framelength)
+            feat7D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 7, framelength)
+            feat8D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 8, framelength)
+            feat9D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 9, framelength)
+            feat10D[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 10, framelength)
+
 
     if(i%4 == 2):
         noteCounter = -1
@@ -148,32 +155,23 @@ for i in range(72):
             #normalise to compensate for loudness        
             EavPDSshort = EavPDSshort/max(EavPDSshort)   
 
-            #Calculate features
-            feat1E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
-            feat2E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
-            feat3E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
-            feat4E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note)
+            #Calculate Meinel features
+            # feat1E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 1,framelength, note)
+            # feat2E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 2,framelength, note)
+            # feat3E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 3,framelength, note)
+            # feat4E[4*violinCounter + noteCounter] = getEnergyInHarmonic(EavPDSshort, f0, 4,framelength, note) 
 
-    # if(i%4 == 3):
-    #     standard = 1318.51
-    #     note = 'E'  
+            feat1E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 1, framelength)
+            feat2E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 2, framelength)
+            feat3E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 3, framelength)
+            feat4E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 4, framelength)
+            feat5E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 5, framelength)
+            feat6E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 6, framelength)
+            feat7E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 7, framelength)
+            feat8E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 8, framelength)
+            feat9E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 9, framelength)
+            feat10E[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 10, framelength)
 
-        # #Reduce the frequency resolution and take the FFT
-        # avPDS = get_average_pds(audio,framelength,frameskip)
-        # freqX = np.fft.fftfreq(len(avPDS), 1/fs)
-
-        # #Remove negative frequency parts and remove unnecessary data
-        # freqXshort = np.zeros(7000)
-        # avPDSshort = np.zeros(7000)
-        # for j in range(7000):
-        #     avPDSshort[j] = avPDS[j]
-        #     freqXshort[j] = freqX[j]
-
-        # #Find the pitch of the current audio file
-        # f0 = pitch_detection(avPDS, freqX, numberofcompr, standard)
-
-        # #normalise to compensate for loudness        
-        # avPDSshort = avPDSshort/max(avPDSshort)   
 
     if(i%4 == 3):
         noteCounter = -1
@@ -200,11 +198,23 @@ for i in range(72):
             #normalise to compensate for loudness        
             GavPDSshort = GavPDSshort/max(GavPDSshort)   
 
-            #Calculate features
-            feat1G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
-            feat2G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
-            feat3G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
-            feat4G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
+            #Calculate Meinel features
+            # feat1G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 1,framelength, note)
+            # feat2G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 2,framelength, note)
+            # feat3G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 3,framelength, note)
+            # feat4G[4*violinCounter + noteCounter] = getEnergyInHarmonic(GavPDSshort, f0, 4,framelength, note)
+
+            feat1G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 1, framelength)
+            feat2G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 2, framelength)
+            feat3G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 3, framelength)
+            feat4G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 4, framelength)
+            feat5G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 5, framelength)
+            feat6G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 6, framelength)
+            feat7G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 7, framelength)
+            feat8G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 8, framelength)
+            feat9G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 9, framelength)
+            feat10G[4*violinCounter + noteCounter] = energyInFirstTenHarmonics(AavPDSshort, f0, 10, framelength)
+
         
             
 
@@ -214,11 +224,15 @@ for i in range(72):
 
     
         
+# saveToExcelFile('A4train.xlsx', 'A4train.csv', feat1A, feat2A, feat3A, feat4A)
+# saveToExcelFile('D4train.xlsx', 'D4train.csv', feat1D, feat2D, feat3D, feat4D)
+# saveToExcelFile('E5train.xlsx', 'E5train.csv', feat1E, feat2E, feat3E, feat4E)
+# saveToExcelFile('G3train.xlsx', 'G3train.csv', feat1G, feat2G, feat3G, feat4G)
 
-saveToExcelFile('A4train.xlsx', 'A4train.csv', feat1A, feat2A, feat3A, feat4A)
-saveToExcelFile('D4train.xlsx', 'D4train.csv', feat1D, feat2D, feat3D, feat4D)
-saveToExcelFile('E5train.xlsx', 'E5train.csv', feat1E, feat2E, feat3E, feat4E)
-saveToExcelFile('G3train.xlsx', 'G3train.csv', feat1G, feat2G, feat3G, feat4G)
+saveToExcelFile('A4train.xlsx', 'A4train.csv', feat1A, feat2A, feat3A, feat4A, feat5A, feat6A, feat7A, feat8A, feat9A, feat10A)
+saveToExcelFile('D4train.xlsx', 'D4train.csv', feat1D, feat2D, feat3D, feat4D, feat5D, feat6D, feat7D, feat8D, feat9D, feat10D)
+saveToExcelFile('E5train.xlsx', 'E5train.csv', feat1E, feat2E, feat3E, feat4E, feat5E, feat6E, feat7E, feat8E, feat9E, feat10E)
+saveToExcelFile('G3train.xlsx', 'G3train.csv', feat1G, feat2G, feat3G, feat4G, feat5G, feat6G, feat7G, feat8G, feat9G, feat10G)
 
     
 

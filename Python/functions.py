@@ -167,28 +167,34 @@ def saveToTextFile(fileName, data):
         file.write(str(data[i]) + " \n") 
     file.close() 
 
-def saveToExcelFile(filenamexlsx, filenamecsv, feat1, feat2, feat3,feat4):
+def saveToExcelFile(filenamexlsx, filenamecsv, feat1, feat2, feat3,feat4,feat5,feat6,feat7,feat8,feat9,feat10):
     #violin = ["africa1", "africa2", "conv1", "conv10",  "conv11", "conv12", "conv13", "conv2", "conv3", "conv4", "conv5", "conv6", "conv7", "conv8", "conv9", "fact1", "fact2", "fact3"]
-    violin = ["africa","africa","africa","africa","africa","africa","africa", "africa", 
-    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv",
-    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
-    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
-    "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
-    "conv","conv","conv","conv","fact","fact","fact","fact", "fact","fact","fact","fact", 
-    "fact","fact","fact","fact"]
-    #violin = ["africa","africa","conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv","conv","fact","fact","fact"]
-    col1 = "feature1"
-    col2 = "feature2"
-    col3 = "feature3"
-    col4 = "feature4"
-    col5 = "violin"
+    # violin = ["africa","africa","africa","africa","africa","africa","africa", "africa", 
+    # "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv",
+    # "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
+    # "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
+    # "conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv", 
+    # "conv","conv","conv","conv","fact","fact","fact","fact", "fact","fact","fact","fact", 
+    # "fact","fact","fact","fact"]
+    violin = ["africa","africa","conv","conv","conv","conv", "conv","conv","conv","conv", "conv","conv","conv","conv","conv","fact","fact","fact"]
+    col1 = "fundamental"
+    col2 = "harmonic2"
+    col3 = "harmonic3"
+    col4 = "harmonic4"
+    col5 = "harmonic5"
+    col6 = "harmonic6"
+    col7 = "harmonic7"
+    col8 = "harmonic8"
+    col9 = "harmonic9"
+    col10 = "harmonic10"
+    col11 = "violin"
 
-    data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:violin})
-    energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\'
+    data = pd.DataFrame({col1:feat1,col2:feat2,col3:feat3,col4:feat4,col5:feat5,col6:feat6,col7:feat7,col8:feat8,col9:feat9,col10:feat10,col11:violin})
+    energyPath = 'C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\'
     data.to_excel(energyPath + filenamexlsx, sheet_name='sheet1', index=False)
 
-    read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\' + filenamexlsx)
-    read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\' + filenamecsv, index = None, header=True)
+    read_file = pd.read_excel ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\' + filenamexlsx)
+    read_file.to_csv ('C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\' + filenamecsv, index = None, header=True)
 
 
 
@@ -271,4 +277,13 @@ def getEnergyInHarmonic(x, f0, feature, framelength, note):
 
     return energy
     
+def energyInFirstTenHarmonics(x, f0, numberOfHarmonic, framelength):
+    energy = 0
+    n = int(f0*framelength/96000)        #index of f0 in x[n]
+    offset = int(4.5*framelength/96000)  #offset of 4Hz for 0.1 of max
+    area = 2*offset                 #here n is 20
+    
+    for i in range(area):
+        energy += pow(x[n*numberOfHarmonic-offset+i],2)
 
+    return energy
