@@ -13,15 +13,17 @@ def save_multi_image(filename):
     pp.close()
 
 # read in test data
-#A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\A4train.csv")
-#D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\D4train.csv")
-#E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\E5train.csv")
-#G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\G3train.csv")
-Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\AdagioTrain5again.csv")
+#A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\A4train.csv")
+#D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\D4train.csv")
+#E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\E5train.csv")
+#G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\G3train.csv")
+Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\AdagioTrain.csv")
 # print(D4data.head(15))
 
 # Dividing Data Into Features and Labels
-feature_columns = (['feature1', 'feature2', 'feature3', 'feature4'])
+#feature_columns = (['feature1', 'feature2', 'feature3', 'feature4'])
+feature_columns = (['fundamental', 'harmonic2', 'harmonic3', 'harmonic4', 'harmonic5',
+                    'harmonic6', 'harmonic7', 'harmonic8', 'harmonic9', 'harmonic10'])
 X_train = Adagiodata[feature_columns].values
 y_train = Adagiodata['violin'].values   #Label Encoding
 from sklearn.preprocessing import LabelEncoder
@@ -33,11 +35,11 @@ y_train = le.fit_transform(y_train)
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)#Fitting the Model and Making Predictions 
 
 
-#A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\A4testNew.csv")
-#D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\D4testNew.csv")
-#E5dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\E5testNew.csv")
-#G3dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\G3testNew.csv")
-AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\AdagioTest.csv")
+#A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\A4test.csv")
+#D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\D4test.csv")
+#E5dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\E5test.csv")
+#G3dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\G3test.csv")
+AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\AdagioTest.csv")
 
 X_test = AdagiodataTest[feature_columns].values
 y_test = AdagiodataTest['violin'].values   #Label Encoding
@@ -76,9 +78,9 @@ ax.xaxis.set_ticklabels(['africa', 'conv', 'fact']); ax.yaxis.set_ticklabels(['a
 # annotations=["A1","A1","A2","A2","C1","C1","C10","C10","C11","C11","C12","C12","C13","C13",
 #         "C2","C2","C3","C3","C4","C4","C5","C5","C6","C6","C7","C7","C8","C8","C9","C9",
 #         "F1","F1","F2","F2","F3","F3"]
-annotations=["A1","A2","C1","C10","C11","C12","C13",
-        "C2","C3","C4","C5","C6","C7","C8","C9",
-        "F1","F2","F3"]
+# annotations=["A1","A2","C1","C10","C11","C12","C13",
+        # "C2","C3","C4","C5","C6","C7","C8","C9",
+        # "F1","F2","F3"]
 
 
 
@@ -86,7 +88,7 @@ annotations=["A1","A2","C1","C10","C11","C12","C13",
 # plt.scatter(X_train[2], X_train[3])
 # plt.scatter(X_test[0], X_test[1])
 #plt.show()
-save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\kNNresults\\NE3C4cmAdagiokNN5again.pdf")
+save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\kNNresults\\NE10cmAdagiokNN.pdf")
 
 
 # plt.figure()

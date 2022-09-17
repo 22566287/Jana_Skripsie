@@ -56,23 +56,23 @@ def save_multi_image(filename):
 # plt.show()
 
 # Importing the dataset
-#A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\A4train.csv")
-#D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\D4train.csv")
-#E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\E5train.csv")
-#G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\G3train.csv")
-Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\AdagioTrain5again.csv")
+#A4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\A4train.csv")
+#D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\D4train.csv")
+#E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\E5train.csv")
+G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\G3train.csv")
+#Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\AdagioTrain.csv")
 
 # Splitting the dataset into the Training set and Test set
-X_train = Adagiodata.iloc[:, [0,1,2, 3]].values
-y_train = Adagiodata.iloc[:, 4].values 
+X_train = G3data.iloc[:, [0,1,2,3,4,5,6,7,8,9]].values
+y_train = G3data.iloc[:, 10].values 
 
-#A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\A4testNew.csv")
-#D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\D4testNew.csv")
-#E5dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\E5testNew.csv")
-#G3dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\G3testNew.csv")
-AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\classifierInput\\AdagioTest.csv")
-X_test = AdagiodataTest.iloc[:, [0,1,2, 3]].values
-y_test = AdagiodataTest.iloc[:, 4].values 
+#A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\A4test.csv")
+#D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\D4test.csv")
+#E5dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\E5test.csv")
+G3dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\G3test.csv")
+#AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\AdagioTest.csv")
+X_test = G3dataTest.iloc[:, [0,1,2,3,4,5,6,7,8,9]].values
+y_test = G3dataTest.iloc[:, 10].values 
 
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
@@ -90,15 +90,15 @@ print(classifier.coef_)  #weights of the four features for each class
 print(classifier.coef_[0,1])
 
 
-x1 = (-classifier.coef_[0,0] - classifier.coef_[0,2]*Adagiodata.iloc[0,1])/classifier.coef_[0,1]
-x2 = (-classifier.coef_[0,0] - classifier.coef_[0,2]*Adagiodata.iloc[2,1])/classifier.coef_[0,1]
-plt.axline((x1, Adagiodata.iloc[0,1]), (x2, Adagiodata.iloc[2,1]), color = "green")
-x1 = (-classifier.coef_[1,0] - classifier.coef_[1,2]*Adagiodata.iloc[0,1])/classifier.coef_[1,1]
-x2 = (-classifier.coef_[1,0] - classifier.coef_[1,2]*Adagiodata.iloc[2,1])/classifier.coef_[1,1]
-plt.axline((x1, Adagiodata.iloc[0,1]), (x2, Adagiodata.iloc[2,1]), color = "red")
-x1 = (-classifier.coef_[2,0] - classifier.coef_[2,2]*Adagiodata.iloc[0,1])/classifier.coef_[2,1]
-x2 = (-classifier.coef_[2,0] - classifier.coef_[2,2]*Adagiodata.iloc[2,1])/classifier.coef_[2,1]
-plt.axline((x1, Adagiodata.iloc[0,1]), (x2, Adagiodata.iloc[2,1]), color = "blue")
+# x1 = (-classifier.coef_[0,0] - classifier.coef_[0,2]*Adagiodata.iloc[0,1])/classifier.coef_[0,1]
+# x2 = (-classifier.coef_[0,0] - classifier.coef_[0,2]*Adagiodata.iloc[2,1])/classifier.coef_[0,1]
+# plt.axline((x1, Adagiodata.iloc[0,1]), (x2, Adagiodata.iloc[2,1]), color = "green")
+# x1 = (-classifier.coef_[1,0] - classifier.coef_[1,2]*Adagiodata.iloc[0,1])/classifier.coef_[1,1]
+# x2 = (-classifier.coef_[1,0] - classifier.coef_[1,2]*Adagiodata.iloc[2,1])/classifier.coef_[1,1]
+# plt.axline((x1, Adagiodata.iloc[0,1]), (x2, Adagiodata.iloc[2,1]), color = "red")
+# x1 = (-classifier.coef_[2,0] - classifier.coef_[2,2]*Adagiodata.iloc[0,1])/classifier.coef_[2,1]
+# x2 = (-classifier.coef_[2,0] - classifier.coef_[2,2]*Adagiodata.iloc[2,1])/classifier.coef_[2,1]
+# plt.axline((x1, Adagiodata.iloc[0,1]), (x2, Adagiodata.iloc[2,1]), color = "blue")
 
 
 # # Plot the data and the classification with the decision boundary.
@@ -125,8 +125,8 @@ plt.xlabel("F1: <1kHz")
 plt.legend()
 for i, label in enumerate(annotations):
     plt.annotate(label, (X_test[i,0:1], X_test[i,1:2]))
-for i, label in enumerate(annotationsTrain):
-    plt.annotate(label, (X_train[i,0:1], X_train[i,1:2]))
+# for i, label in enumerate(annotationsTrain):
+#     plt.annotate(label, (X_train[i,0:1], X_train[i,1:2]))
 plt.show()
 
 # Predicting the Test set results
@@ -148,11 +148,11 @@ plt.figure(figsize=(9, 6))
 ax = plt.axes()
 df_cm = cm
 sns.heatmap(df_cm, annot=True,cmap="Blues")
-ax.set_title('Adagio Confusion Matrix Accuracy = ' + str(round(accuracy, 2)) + ' %' + 'with logistic regression' + '\n\n')
+ax.set_title('G3 Confusion Matrix Accuracy = ' + str(round(accuracy, 2)) + ' %' + ' with logistic regression' + '\n\n')
 ax.set_xlabel('\nPredicted Values')
 ax.set_ylabel('Actual Values ')
 ax.xaxis.set_ticklabels(['africa', 'conv', 'fact']); ax.yaxis.set_ticklabels(['africa', 'conv', 'fact']);
 #plt.show()
 
 
-save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\naiveExp3ClassFrames\\logRegResults\\NE3C4cmAdagioLR5again.pdf")
+save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\logRegResults\\NE10cmG3LR.pdf")
