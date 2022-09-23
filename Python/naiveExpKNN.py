@@ -17,24 +17,17 @@ def save_multi_image(filename):
 #D4data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\D4train.csv")
 #E5data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\E5train.csv")
 #G3data = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\G3train.csv")
-Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\LOOexp\\classifierInput\\F2Train.csv")
+Adagiodata = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\LOOexp\\classifierInput\\C10Train.csv")
 # print(D4data.head(15))
 
 # Dividing Data Into Features and Labels
 feature_columns = (['feature1', 'feature2', 'feature3', 'feature4'])
-# feature_columns = (['fundamental', 'harmonic2', 'harmonic3', 'harmonic4', 'harmonic5',
-#                     'harmonic6', 'harmonic7', 'harmonic8', 'harmonic9', 'harmonic10'])
 X_train = Adagiodata[feature_columns].values
 y_train = Adagiodata['violin'].values   #Label Encoding
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 y_train = le.fit_transform(y_train)
 print(y_train)
-
-#Splitting the Data into Training and Testing Dataset
-# from sklearn.model_selection import train_test_split
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)#Fitting the Model and Making Predictions 
-
 
 #A4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\A4test.csv")
 #D4dataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\harmonic10Features\\classifierInput\\D4test.csv")
@@ -44,6 +37,8 @@ AdagiodataTest = pd.read_csv("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieur
 
 X_test = AdagiodataTest[feature_columns].values
 y_test = AdagiodataTest['violin'].values   #Label Encoding
+print(y_test)
+#y_test = ['africa','conv','fact']
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
 y_test = le.fit_transform(y_test)
@@ -56,7 +51,7 @@ from sklearn.model_selection import cross_val_score
 classifier = KNeighborsClassifier(n_neighbors=5)
 classifier.fit(X_train, y_train)
 y_pred = classifier.predict(X_test)
-print(y_pred)
+print("y_pred: " + str(y_pred))
 
 #Confusion Matrix
 confusion_matrix = confusion_matrix(y_test, y_pred)
@@ -68,10 +63,11 @@ import seaborn as sns
 plt.figure(figsize=(9, 6))
 ax = sns.heatmap(confusion_matrix, annot=True, cmap='Blues')
 
-ax.set_title('F2 Confusion Matrix Accuracy = ' + str(round(accuracy, 2)) + ' %' + ' with kNN for LOO' + '\n\n')
+ax.set_title('A1 Confusion Matrix Accuracy = ' + str(round(accuracy, 2)) + ' %' + ' with kNN for LOO' + '\n\n')
 ax.set_xlabel('\nPredicted Values')
 ax.set_ylabel('Actual Values ')
-ax.xaxis.set_ticklabels(['africa','conv','fact']); ax.yaxis.set_ticklabels(['africa', 'conv','fact']);
+#ax.xaxis.set_ticklabels(['africa','conv','fact']); ax.yaxis.set_ticklabels(['africa', 'conv','fact']);
+plt.show()
 
 
 
@@ -91,7 +87,7 @@ ax.xaxis.set_ticklabels(['africa','conv','fact']); ax.yaxis.set_ticklabels(['afr
 # plt.scatter(X_train[2], X_train[3])
 # plt.scatter(X_test[0], X_test[1])
 #plt.show()
-save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\LOOexp\\kNNresults\\LOOcmF2kNN.pdf")
+#save_multi_image("C:\\Users\\Jana\\Documents\\Stellenbosch_Ingenieurswese\\Lesings\\2022\\2de_semester\\Project_E_448\\AudioAnalysisofanAfricanViolin\\violinData\\LOOexp\\kNNresults\\LOOcmF2kNN.pdf")
 
 
 # plt.figure()
