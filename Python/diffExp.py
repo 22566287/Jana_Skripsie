@@ -1,3 +1,4 @@
+from cmath import sqrt
 from sklearn.metrics import accuracy_score,precision_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score ,precision_score,recall_score,f1_score
@@ -24,35 +25,74 @@ le = LabelEncoder()
 y_test = le.fit_transform(y_test)
 
 
-#print(AdagioTrain.describe())
-#print(AdagioTest.std())
-#print(AdagioTest.mean())
+print(AdagioTrain.describe())
+print(AdagioTest.std())
+print(AdagioTest.mean())
 
-# mean = np.array([AdagioTrain['feature1'].mean(),AdagioTrain['feature2'].mean(),AdagioTrain['feature3'].mean(),AdagioTrain['feature4'].mean()])
-# #assume for now correlation in sd matrix is zero:
-# sd = np.array([[AdagioTrain['feature1'].std(),0,0,0],
-#       [0,AdagioTrain['feature2'].std(),0,0],
-#       [0,0,AdagioTrain['feature3'].std(),0],
-#       [0,0,0,AdagioTrain['feature4'].std()]])
+#multivariate gaussian 
+mean = np.array([[AdagioTrain['feature1'].mean(),AdagioTrain['feature2'].mean(),AdagioTrain['feature3'].mean(),AdagioTrain['feature4'].mean()]])
+mean = mean.transpose()
+print(mean)
+cov = np.array(AdagioTrain.cov())
+print(mean.shape)
+print(cov.shape)
+X_test = X_test.transpose()
+print(X_test.shape)
+prob_density = [0]*6
+mahDist = [0]*6
+
+for i in range(6):
+    prob_density[i] = pow(pow(np.pi*2,4)*np.linalg.det(cov),-0.5) * np.exp(-0.5*np.dot(np.dot((X_test[:,i]-mean[:,0]).transpose(),np.linalg.inv(cov)), (X_test[:,i]-mean[:,0])))
+    mahDist[i] = pow(np.dot(np.dot((X_test[:,i]-mean[:,0]).transpose(),np.linalg.inv(cov)), (X_test[:,i]-mean[:,0])),0.5)
+print(str(prob_density))
+scale = pow(pow(np.pi*2,4)*np.linalg.det(cov),-0.5)
+print(scale)
+print(mahDist)
+
+x_value = [mahDist[3],mahDist[4],mahDist[5],mahDist[0],mahDist[2],mahDist[1]]
+prob = [prob_density[3]/scale,prob_density[4]/scale,prob_density[5]/scale,prob_density[0]/scale,prob_density[2]/scale,prob_density[1]/scale]
+
+annotations=["C2","C3","F1","A1","C8","A2"]
+
+plt.scatter(x_value,prob)
+plt.plot(x_value,prob)
+plt.axvline(x = 1.3, color = 'r', label = 'axvline - full height')
+# plt.scatter(X_train[:,0:1], X_train[:,1:2], label='Training set')
+# plt.scatter(X_test[:,0:1], X_test[:,1:2], label='Test set')
+plt.title("Mahalanobis distance againt probability")
+plt.ylabel("Probability")
+plt.xlabel("Mahalanobis distance")
+#plt.legend()
+for i, label in enumerate(annotations):
+    plt.annotate(label, (x_value[i], prob[i]))
+plt.show()
 
 
+# # feature1
+# mean1 = AdagioTrain['feature1'].mean()
+# sd1 = AdagioTrain['feature1'].std()
+# scale = 1/(sqrt(2*np.pi)*sd1)
+# print(scale)        #max value to scale density with
+# prob_density1 = 1/((np.sqrt(np.pi*2)*sd1)) * np.exp(-0.5*((X_test[:,0]-mean1)/sd1)**2)
+# print(prob_density1)
 
-# #prob_density = 1/((np.sqrt(np.pi*2)*sd[:,i])) * np.exp(-0.5*((X_test[i,:]-mean[i])/sd[:,i])**2)
-# for i in range(4):
-#     prob_density = pow(pow(np.pi*2,4)*np.linalg.det(sd),-0.5) * np.exp(-0.5*(X_test[i,:]-mean[i]).transpose() * np.linalg.inv(sd) * (X_test[i,:]-mean[i]))
-# print(prob_density)
+# # feature2
+# mean2 = AdagioTrain['feature2'].mean()
+# sd2 = AdagioTrain['feature2'].std()
+# prob_density2 = 1/((np.sqrt(np.pi*2)*sd2)) * np.exp(-0.5*((X_test[:,0]-mean2)/sd2)**2)
+# print(prob_density2)
 
-# #feature1
-mean1 = AdagioTrain['feature1'].mean()
-sd1 = AdagioTrain['feature1'].std()
-prob_density1 = 1/((np.sqrt(np.pi*2)*sd1)) * np.exp(-0.5*((X_test[:,0]-mean1)/sd1)**2)
-print(prob_density1)
+# # feature3
+# mean3 = AdagioTrain['feature3'].mean()
+# sd3 = AdagioTrain['feature3'].std()
+# prob_density3 = 1/((np.sqrt(np.pi*2)*sd3)) * np.exp(-0.5*((X_test[:,0]-mean3)/sd3)**2)
+# print(prob_density3)
 
-# #feature2
-mean2 = AdagioTrain['feature2'].mean()
-sd2 = AdagioTrain['feature2'].std()
-prob_density2 = 1/((np.sqrt(np.pi*2)*sd2)) * np.exp(-0.5*((X_test[:,0]-mean2)/sd2)**2)
-print(prob_density2)
+# # feature4
+# mean4 = AdagioTrain['feature4'].mean()
+# sd4 = AdagioTrain['feature4'].std()
+# prob_density4 = 1/((np.sqrt(np.pi*2)*sd4)) * np.exp(-0.5*((X_test[:,0]-mean4)/sd4)**2)
+# print(prob_density4)
 
 
 
@@ -61,7 +101,6 @@ print(prob_density2)
 # Y_pred = gaussian.predict(X_test) 
 # accuracy_nb=round(accuracy_score(y_test,Y_pred)* 100, 2)
 # acc_gaussian = round(gaussian.score(X_train, y_train) * 100, 2)
-
 
 # cm = confusion_matrix(y_test, Y_pred)
 # accuracy = accuracy_score(y_test,Y_pred)
@@ -103,20 +142,19 @@ print(prob_density2)
 
 
 
-import numpy as np
-import matplotlib.pyplot as plt
+
 from scipy.stats import norm
 # Plot between -10 and 10 with .001 steps.
-x_axis = np.arange(-1, 4, 0.01)
+#x_axis = np.arange(-1, 4, 0.01)
 # Calculating mean and standard deviation
 # meanTest = AdagioTest['feature1'].mean()
 # sdTest = AdagioTest['feature1'].std()
 # plt.plot(x_axis, norm.pdf(x_axis, meanTest, sdTest))
 
-meanTrain = AdagioTrain['feature1'].mean()
-sdTrain = AdagioTrain['feature1'].std()
-plt.plot(x_axis, norm.pdf(x_axis, meanTrain, sdTrain))
+# meanTrain = AdagioTrain['feature1'].mean()
+# sdTrain = AdagioTrain['feature1'].std()
+# plt.plot(x_axis, norm.pdf(x_axis, meanTrain, sdTrain))
 
 
-plt.show()
+
 
